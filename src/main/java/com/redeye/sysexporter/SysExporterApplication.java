@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.redeye.sysexporter.acquisitor.CPUMetricsAcquisitor;
+import com.redeye.sysexporter.acquisitor.DiskMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.MemMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.NetworkMetricsAcquisitor;
 
@@ -26,6 +27,9 @@ public class SysExporterApplication implements CommandLineRunner {
 	@Autowired
 	private NetworkMetricsAcquisitor netAcquisitor;
 	
+	@Autowired
+	private DiskMetricsAcquisitor diskAcquisitor;
+	
 	/**
 	 * 
 	 * 
@@ -42,7 +46,8 @@ public class SysExporterApplication implements CommandLineRunner {
 		
 		//this.cpuAcquisitor.start();
 		//this.memAcquisitor.start();
-		this.netAcquisitor.start();
+		this.diskAcquisitor.start();
+		//this.netAcquisitor.start();
 		
 		Thread.sleep(1000 * 60 * 60);
 		

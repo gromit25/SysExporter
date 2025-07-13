@@ -1,5 +1,12 @@
-{"properties": [{
-  "name": "app.schedule",
-  "type": "java.lang.String",
-  "description": "A description for 'app.schedule'"
-}]}
+{"properties": [
+  {
+    "name": "app.schedule",
+    "type": "java.lang.String",
+    "description": "A description for 'app.schedule'"
+  },
+  {
+    "name": "app.stop.file",
+    "type": "java.lang.String",
+    "description": "A description for 'app.stop.file'"
+  }
+]}

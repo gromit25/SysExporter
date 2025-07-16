@@ -13,6 +13,7 @@ import com.redeye.sysexporter.acquisitor.CPUMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.DiskMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.MemMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.NetworkMetricsAcquisitor;
+import com.redeye.sysexporter.acquisitor.ProcessMetricsAcquisitor;
 
 /**
  * 
@@ -37,6 +38,9 @@ public class SysExporterApplication implements CommandLineRunner {
 	@Autowired
 	private DiskMetricsAcquisitor diskAcquisitor;
 	
+	@Autowired
+	private ProcessMetricsAcquisitor procAcquisitor;
+	
 	/**
 	 * 
 	 * 
@@ -53,8 +57,9 @@ public class SysExporterApplication implements CommandLineRunner {
 		
 		//this.cpuAcquisitor.start();
 		//this.memAcquisitor.start();
-		this.diskAcquisitor.start();
+		//this.diskAcquisitor.start();
 		//this.netAcquisitor.start();
+		this.procAcquisitor.start();
 		
 		// 중단 파일이 touch 될때까지 대기
 		FileUtil.waitForFileTouched(stopFile);

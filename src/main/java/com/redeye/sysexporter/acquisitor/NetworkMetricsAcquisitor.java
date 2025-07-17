@@ -13,7 +13,7 @@ import oshi.hardware.NetworkIF;
 public class NetworkMetricsAcquisitor extends Acquisitor {
 
 	@Override
-	protected void acquireMetrics() {
+	protected String acquireMetrics() {
 		
 		// Network
 		for(NetworkIF net : this.getSysInfo().getHardware().getNetworkIFs()) {

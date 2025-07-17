@@ -10,7 +10,7 @@ import oshi.software.os.OSProcess;
 public class ProcessMetricsAcquisitor extends Acquisitor {
 
 	@Override
-	protected void acquireMetrics() {
+	protected String acquireMetrics() {
 		
 		List<OSProcess> procList = this.getSysInfo().getOperatingSystem().getProcesses();
 		
@@ -18,10 +18,13 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 			
 			if(proc.getName().startsWith("java") == true) {
 			
-				StringBuilder procMetrics = new StringBuilder("");
-				procMetrics.append(proc.getName());
-				procMetrics.append(" ").append(proc.getProcessCpuLoadCumulative());
-				procMetrics.append(" ").append(proc.getResidentSetSize()).append("byte");
+				StringBuilder procMetrics = new StringBuilder()
+					.append(proc.getName())
+					.append("\t")
+					.append(proc.getProcessCpuLoadCumulative())
+					.append("\t")
+					.append(proc.getResidentSetSize())
+					.append("byte");
 				
 				// argument 확인
 //				for(String arg: proc.getArguments()) {

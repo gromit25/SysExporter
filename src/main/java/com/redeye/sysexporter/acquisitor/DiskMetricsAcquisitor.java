@@ -31,7 +31,7 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 	){};
 
 	@Override
-	protected void acquireMetrics() {
+	protected String acquireMetrics() {
 		
 		// Disk
 		long curTimestamp = System.currentTimeMillis();
@@ -56,7 +56,12 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 				);
 			}
 			
+			return null;
+			
 		} else {
+			
+			StringBuilder diskMsg = new StringBuilder();
+			diskMsg.append("\"type\": \"disk\", ");
 			
 			for(HWDiskStore disk : diskList) {
 				
@@ -73,7 +78,13 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 				double readRate = (disk.getReadBytes() - preMetrics.readBytes())/divider;
 				double writeRate = (disk.getWriteBytes() - preMetrics.writeBytes())/divider;
 				
-				System.out.println("Disk(" + disk.getName() + "):" + readRate + ", " + writeRate);
+				diskMsg
+					.append("\"" + disk.getName() + "\":")
+					.append("{ \"readRate\":")
+					.append(readRate)
+					.append(", \"writeRate\":")
+					.append(writeRate)
+					.append("}");
 				
 				this.diskMetricsMap.put(
 						disk.getName(),

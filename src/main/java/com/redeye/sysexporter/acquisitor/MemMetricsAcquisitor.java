@@ -13,12 +13,17 @@ import oshi.hardware.GlobalMemory;
 public class MemMetricsAcquisitor extends Acquisitor{
 
 	@Override
-	protected void acquireMetrics() {
+	protected String acquireMetrics() {
 		
 		// Memory
 		GlobalMemory memory = this.getSysInfo().getHardware().getMemory();
-
-		System.out.println("Total memory: " + memory.getTotal());
-		System.out.println("Available memory: " + memory.getAvailable());
+		
+		return new StringBuilder()
+			.append("\"type\": \"mem\"")
+			.append("\"total\":")
+			.append(memory.getTotal())
+			.append("\"available\":")
+			.append(memory.getAvailable())
+			.toString();
 	}
 }

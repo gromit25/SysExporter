@@ -15,7 +15,7 @@ public class CPUMetricsAcquisitor extends Acquisitor {
 	/**
 	 * 
 	 */
-	protected void acquireMetrics() {
+	protected String acquireMetrics() {
 		
 		// CPU
 		CentralProcessor cpu = this.getSysInfo().getHardware().getProcessor();
@@ -37,7 +37,13 @@ public class CPUMetricsAcquisitor extends Acquisitor {
 			totalLoad += load;
 		}
 		
-		double avgLoad = totalLoad / loadArr.length;
-		System.out.printf("CPU Usage: %.1f%%%n", avgLoad * 100);
+		double avgLoad = (totalLoad / loadArr.length) * 100;
+		
+		return new StringBuilder()
+			.append("{ \"type\": \"cpu\", ")
+			.append("\"usage\":")
+			.append(avgLoad)
+			.append("}")
+			.toString();
 	}
 }

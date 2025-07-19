@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
 import oshi.hardware.HWDiskStore;
 
 /**
@@ -15,20 +15,15 @@ import oshi.hardware.HWDiskStore;
  * 
  * @author jmsohn
  */
+@Slf4j
 @Component
 public class DiskMetricsAcquisitor extends Acquisitor {
-	
-	/** */
-	private long preTimestamp = -1;
-	
-	/** */
-	private Map<String, DiskTotalMetrics> diskMetricsMap = null;
-
 	
 	/**
 	 * 
 	 */
 	record DiskTotalMetrics (
+		long timestamp,
 		String diskName,
 		long readBytes,
 		long writeBytes
@@ -52,21 +47,13 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 	@Override
 	protected String acquireMetrics() throws Exception {
 		
-		// 1. Disk 성능 정보 수집을 위한 준비 작업
-		long curTimestamp = System.currentTimeMillis();
+		// 1. 데이터 수집을 위한 준비
+		Map<String, DiskTotalMetrics> preMetricsMap = new HashMap<>();
+		List<DiskRateMetrics> diskRateMetricsList = new ArrayList<>();
+		
 		List<HWDiskStore> diskList = this.getSysInfo().getHardware().getDiskStores();
 		
-		if(this.preTimestamp < 0) {
-			
-			this.preTimestamp = curTimestamp;
-			this.diskMetricsMap = new ConcurrentHashMap<>();
-		}
-
-		// 2. Disk 성능 정보 추출
-		Map<String, Object> diskMetrics = new HashMap<>();
-		diskMetrics.put("type", "disk");
-			
-		List<DiskRateMetrics> diskRateMetricsList = new ArrayList<>();
+		// 2. 이전 Disk 성능 정보 수집
 		
 		// Disk 목록 별로 성능 정보 추출
 		for(HWDiskStore disk : diskList) {
@@ -74,28 +61,11 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 			// 최신 정보로 갱신
 			disk.updateAttributes();
 			
-			// 이전 read/write byte 획득
-			DiskTotalMetrics preMetrics = this.diskMetricsMap.get(disk.getName());
-			if(preMetrics != null) {
-				
-				// read/write 초당 byte 수 계산
-				double divider = (curTimestamp - this.preTimestamp)/1000;
-				double readRate = (disk.getReadBytes() - preMetrics.readBytes())/divider;
-				double writeRate = (disk.getWriteBytes() - preMetrics.writeBytes())/divider;
-				
-				diskRateMetricsList.add(
-					new DiskRateMetrics(
-						disk.getName(),
-						readRate,
-						writeRate
-					)
-				);
-			}
-			
 			// 이전 read/write byte 저장
-			this.diskMetricsMap.put(
+			preMetricsMap.put(
 				disk.getName(),
 				new DiskTotalMetrics(
+					disk.getTimeStamp(),
 					disk.getName(),
 					disk.getReadBytes(),
 					disk.getWriteBytes()
@@ -103,16 +73,47 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 			);
 		}
 		
-		// 이전 시간 저장
-		this.preTimestamp = curTimestamp;
-
-		// 최초 성능 수집시 성능 정보가 없기 때문에 
-		// 데이터를 보내지 않기 위해 null 을 반환
-		if(diskRateMetricsList.size() == 0) {
-			return null;
-		} else {
-			diskMetrics.put("disk", diskRateMetricsList);
-			return this.objMapper.writeValueAsString(diskMetrics);
+		// 3. 대기(1초)
+		try {
+	        Thread.sleep(1000);
+		} catch(Exception ex) {
+			log.error(getName() + " exception", ex);
 		}
+
+		// 4. 현재 Disk 성능 정보 수집 및
+		//    이전 수집 정보와의 차이를 이용해 속도 계산
+		
+		for(HWDiskStore disk : diskList) {
+			
+			// 최신 정보로 갱신
+			disk.updateAttributes();
+			
+			// 이전 read/write byte 저장
+			DiskTotalMetrics preMetrics = preMetricsMap.get(disk.getName());
+			if(preMetrics == null) {
+				continue;
+			}
+			
+			// read/write 초당 byte 수 계산
+			double divider = (disk.getTimeStamp() - preMetrics.timestamp())/1000;
+			double readRate = (disk.getReadBytes() - preMetrics.readBytes())/divider;
+			double writeRate = (disk.getWriteBytes() - preMetrics.writeBytes())/divider;
+			
+			diskRateMetricsList.add(
+				new DiskRateMetrics(
+					disk.getName(),
+					readRate,
+					writeRate
+				)
+			);
+		}
+		
+		// 5. 메시지 객체 생성 및 반환(JSON)
+		Map<String, Object> diskMetricsMap = new HashMap<>();
+		
+		diskMetricsMap.put("type", "disk");
+		diskMetricsMap.put("disk", diskRateMetricsList);
+		
+		return this.objMapper.writeValueAsString(diskMetricsMap);
 	}
 }

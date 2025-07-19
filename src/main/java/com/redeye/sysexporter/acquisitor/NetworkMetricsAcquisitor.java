@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
 import oshi.hardware.NetworkIF;
 
 /**
@@ -15,20 +15,15 @@ import oshi.hardware.NetworkIF;
  * 
  * @author jmsohn
  */
+@Slf4j
 @Component
 public class NetworkMetricsAcquisitor extends Acquisitor {
-	
-	/** */
-	private long preTimestamp = -1;
-	
-	/** */
-	private Map<String, NetworkIFTotalMetrics> networkIFMetricsMap = null;
-	
 	
 	/**
 	 * 
 	 */
-	record NetworkIFTotalMetrics (
+	record NetIFTotalMetrics (
+		long timestamp,
 		String networkIFName,
 		long bytesRecv,
 		long bytesSent
@@ -37,7 +32,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 	/**
 	 * 
 	 */
-	record NetworkIFRateMetrics (
+	record NetIFRateMetrics (
 		String networkIFName,
 		double recvRate,
 		double sentRate
@@ -52,67 +47,73 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 	@Override
 	protected String acquireMetrics() throws Exception {
 		
-		// 1. Network IF 성능 정보 수집을 위한 준비 작업
-		long curTimestamp = System.currentTimeMillis();
-		List<NetworkIF> networkIFList = this.getSysInfo().getHardware().getNetworkIFs();
+		// 1. 데이터 수집을 위한 준비
+		Map<String, NetIFTotalMetrics> preMetricsMap = new HashMap<>();
+		List<NetIFRateMetrics> netIFRateMetricsList = new ArrayList<>();
 		
-		if(this.preTimestamp < 0) {
-			
-			this.preTimestamp = curTimestamp;
-			this.networkIFMetricsMap = new ConcurrentHashMap<>();
-		}
-
-		// 2. Network IF 성능 정보 추출
-		Map<String, Object> networkIFMetrics = new HashMap<>();
-		networkIFMetrics.put("type", "network");
-			
-		List<NetworkIFRateMetrics> networkIFRateMetricsList = new ArrayList<>();
+		List<NetworkIF> netIFList = this.getSysInfo().getHardware().getNetworkIFs();
+		
+		// 2. 이전 Network IF 성능 정보 수집
 		
 		// Network IF 목록 별로 성능 정보 추출
-		for(NetworkIF networkIF : networkIFList) {
+		for(NetworkIF netIF : netIFList) {
 			
 			// 최신 정보로 갱신
-			networkIF.updateAttributes();
-			
-			// 이전 recv/sent byte 획득
-			NetworkIFTotalMetrics preMetrics = this.networkIFMetricsMap.get(networkIF.getName());
-			if(preMetrics != null) {
-				
-				// recv/sent 초당 byte 수 계산
-				double divider = (curTimestamp - this.preTimestamp)/1000;
-				double readRate = (networkIF.getBytesRecv() - preMetrics.bytesRecv())/divider;
-				double writeRate = (networkIF.getBytesSent() - preMetrics.bytesSent())/divider;
-				
-				networkIFRateMetricsList.add(
-					new NetworkIFRateMetrics(
-						networkIF.getName(),
-						readRate,
-						writeRate
-					)
-				);
-			}
+			netIF.updateAttributes();
 			
 			// 이전 read/write byte 저장
-			this.networkIFMetricsMap.put(
-				networkIF.getName(),
-				new NetworkIFTotalMetrics(
-					networkIF.getName(),
-					networkIF.getBytesRecv(),
-					networkIF.getBytesSent()
+			preMetricsMap.put(
+				netIF.getName(),
+				new NetIFTotalMetrics(
+					netIF.getTimeStamp(),
+					netIF.getName(),
+					netIF.getBytesRecv(),
+					netIF.getBytesSent()
 				)
 			);
 		}
 		
-		// 이전 시간 저장
-		this.preTimestamp = curTimestamp;
-
-		// 최초 성능 수집시 성능 정보가 없기 때문에 
-		// 데이터를 보내지 않기 위해 null 을 반환
-		if(networkIFRateMetricsList.size() == 0) {
-			return null;
-		} else {
-			networkIFMetrics.put("network", networkIFRateMetricsList);
-			return this.objMapper.writeValueAsString(networkIFMetrics);
+		// 3. 대기(1초)
+		try {
+	        Thread.sleep(1000);
+		} catch(Exception ex) {
+			log.error(getName() + " exception", ex);
 		}
+
+		// 4. 현재 Network IF 성능 정보 수집 및
+		//    이전 수집 정보와의 차이를 이용해 속도 계산
+		
+		for(NetworkIF netIF : netIFList) {
+			
+			// 최신 정보로 갱신
+			netIF.updateAttributes();
+			
+			// 이전 read/write byte 저장
+			NetIFTotalMetrics preMetrics = preMetricsMap.get(netIF.getName());
+			if(preMetrics == null) {
+				continue;
+			}
+			
+			// read/write 초당 byte 수 계산
+			double divider = (netIF.getTimeStamp() - preMetrics.timestamp())/1000;
+			double recvRate = (netIF.getBytesRecv() - preMetrics.bytesRecv())/divider;
+			double sentRate = (netIF.getBytesSent() - preMetrics.bytesSent())/divider;
+			
+			netIFRateMetricsList.add(
+				new NetIFRateMetrics(
+					netIF.getName(),
+					recvRate,
+					sentRate
+				)
+			);
+		}
+		
+		// 5. 메시지 객체 생성 및 반환(JSON)
+		Map<String, Object> netIFMetricsMap = new HashMap<>();
+		
+		netIFMetricsMap.put("type", "network");
+		netIFMetricsMap.put("interface", netIFRateMetricsList);
+		
+		return this.objMapper.writeValueAsString(netIFMetricsMap);
 	}
 }

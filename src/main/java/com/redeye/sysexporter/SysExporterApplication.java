@@ -99,19 +99,19 @@ public class SysExporterApplication implements CommandLineRunner {
 	 */
 	private void startAcquisitor() throws Exception {
 		
-		//this.cpuAcquisitor.start();
-		//this.memAcquisitor.start();
-		//this.diskAcquisitor.start();
+		this.cpuAcquisitor.start();
+		this.memAcquisitor.start();
+		this.diskAcquisitor.start();
 		this.netAcquisitor.start();
 		//this.procAcquisitor.start();
 	}
 	
 	private void stopAcquisitor() throws Exception {
-		//this.cpuAcquisitor.stop();
-		//this.memAcquisitor.stop();
-		//this.diskAcquisitor.stop();
-		//this.netAcquisitor.stop();
-		this.procAcquisitor.stop();
+		this.cpuAcquisitor.stop();
+		this.memAcquisitor.stop();
+		this.diskAcquisitor.stop();
+		this.netAcquisitor.stop();
+		//this.procAcquisitor.stop();
 	}
 
 	/**

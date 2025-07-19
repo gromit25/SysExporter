@@ -1,7 +1,11 @@
 package com.redeye.sysexporter.acquisitor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
 import oshi.hardware.CentralProcessor;
 
 /**
@@ -9,6 +13,7 @@ import oshi.hardware.CentralProcessor;
  * 
  * @author jmsohn
  */
+@Slf4j
 @Component
 public class CPUMetricsAcquisitor extends Acquisitor {
 
@@ -18,35 +23,41 @@ public class CPUMetricsAcquisitor extends Acquisitor {
 	}
 
 	@Override
-	protected String acquireMetrics() {
+	protected String acquireMetrics() throws Exception {
 		
-		// CPU
+		// 1. 데이터 수집을 위한 준비
 		CentralProcessor cpu = this.getSysInfo().getHardware().getProcessor();
 
+		// 2. 이전 CPU 성능 정보 수집
+		long preTime = System.currentTimeMillis();
 		long[][] prevTickArr = cpu.getProcessorCpuLoadTicks();
+		
+		// 3. 대기(1초)
 		try {
-	        // 대기 시간 (예: 1초)
 	        Thread.sleep(1000);
 		} catch(Exception ex) {
-			// Do nothing
+			log.error(getName() + " exception", ex);
 		}
 
-		// CPU별 사용률 계산
-		double[] loadArr = cpu.getProcessorCpuLoadBetweenTicks(prevTickArr);
+		// 4. 현재 CPU 성능 정보 수집 및
+		//    이전 수집 정보와의 차이를 이용해 이용율 계산
+		long curTime = System.currentTimeMillis();
+		double[] usageArr = cpu.getProcessorCpuLoadBetweenTicks(prevTickArr);
 
 		// 전체 평균 사용률 계산
-		double totalLoad = 0;
-		for (double load : loadArr) {
-			totalLoad += load;
+		double totalUsage = 0;
+		for (double usage : usageArr) {
+			totalUsage += usage;
 		}
 		
-		double avgLoad = (totalLoad / loadArr.length) * 100;
+		// 초당 평균 사용율
+		double avgLoad = ((totalUsage / usageArr.length) * 100) / ((curTime - preTime)/1000);
 		
-		return new StringBuilder()
-			.append("{ \"type\": \"cpu\", ")
-			.append("\"usage\":")
-			.append(avgLoad)
-			.append("}")
-			.toString();
+		// 5. 메시지 객체 생성 및 반환(JSON)
+		Map<String, Object> cpuMetricsMap = new HashMap<>();
+		cpuMetricsMap.put("type", "cpu");
+		cpuMetricsMap.put("usage", avgLoad);
+		
+		return this.objMapper.writeValueAsString(cpuMetricsMap);
 	}
 }

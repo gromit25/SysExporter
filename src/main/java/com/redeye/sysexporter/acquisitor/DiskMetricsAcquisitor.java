@@ -33,7 +33,7 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 	 * 
 	 */
 	record DiskRateMetrics (
-		String diskName,
+		String name,
 		double readRate,
 		double writeRate
 	){};

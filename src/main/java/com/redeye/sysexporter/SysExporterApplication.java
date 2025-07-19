@@ -16,6 +16,7 @@ import com.redeye.sysexporter.acquisitor.DiskMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.MemMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.NetworkMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.ProcessMetricsAcquisitor;
+import com.redeye.sysexporter.exporter.KafkaExporter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,6 +31,9 @@ public class SysExporterApplication implements CommandLineRunner {
 	
 	@Value("${app.stop.file}")
 	private File stopFile;
+	
+	/** */
+	private BlockingQueue<String> toExporterQueue;
 	
 	@Autowired
 	private CPUMetricsAcquisitor cpuAcquisitor;
@@ -46,8 +50,8 @@ public class SysExporterApplication implements CommandLineRunner {
 	@Autowired
 	private ProcessMetricsAcquisitor procAcquisitor;
 	
-	/** */
-	private BlockingQueue<String> toExporterQueue;
+	@Autowired
+	private KafkaExporter exporter;
 	
 	
 	/**
@@ -75,7 +79,7 @@ public class SysExporterApplication implements CommandLineRunner {
 		FileUtil.waitForFileTouched(this.stopFile);
 		
 		// 정보 수집 중단
-		log.info("terminate sys-collector");
+		log.info("stop sys-collector");
 		this.stopAcquisitor();;
 		this.stopExporter();
 	}
@@ -92,6 +96,8 @@ public class SysExporterApplication implements CommandLineRunner {
 		this.diskAcquisitor.setToExporterQueue(this.toExporterQueue);
 		this.netAcquisitor.setToExporterQueue(this.toExporterQueue);
 		this.procAcquisitor.setToExporterQueue(this.toExporterQueue);
+		
+		this.exporter.setToExporterQueue(this.toExporterQueue);
 	}
 	
 	/**
@@ -118,7 +124,7 @@ public class SysExporterApplication implements CommandLineRunner {
 	 * 
 	 */
 	private void startExporter() throws Exception {
-		
+		this.exporter.start();
 	}
 
 	/**
@@ -126,6 +132,6 @@ public class SysExporterApplication implements CommandLineRunner {
 	 * @throws Exception
 	 */
 	private void stopExporter() throws Exception {
-		
+		this.exporter.stop();
 	}
 }

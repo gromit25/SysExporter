@@ -74,8 +74,8 @@ public abstract class Acquisitor {
 						if(toExporterQueue != null) {
 							
 							if(message != null) {
-								System.out.println(message);
-								//toExporterQueue.put(message);
+								System.out.println("SEND: " + message);
+								toExporterQueue.put(message);
 							}
 						} else {
 							log.info("toExporterQueue is null.");
@@ -111,7 +111,7 @@ public abstract class Acquisitor {
 	 */
 	public void stop() {
 		
-		log.info("stop");
+		log.info("stop " + this.getName());
 		
 		if(this.cronAcquisitor != null) {
 			this.cronAcquisitor.stop();

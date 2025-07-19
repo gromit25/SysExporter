@@ -129,7 +129,6 @@ public class SysExporterApplication implements CommandLineRunner {
 
 	/**
 	 * 
-	 * @throws Exception
 	 */
 	private void stopExporter() throws Exception {
 		this.exporter.stop();

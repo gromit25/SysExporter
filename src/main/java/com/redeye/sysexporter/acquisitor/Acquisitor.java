@@ -1,12 +1,18 @@
 package com.redeye.sysexporter.acquisitor;
 
+import java.lang.management.ManagementFactory;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jutools.CronJob;
+import com.jutools.StringUtil;
 
+import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +26,11 @@ import oshi.SystemInfo;
  */
 @Slf4j
 public abstract class Acquisitor {
+	
+	@Autowired
+	private Environment environment;
+	
+	private String hostName;
 
 	@Value("${app.schedule}")
 	private String scheduleStr;
@@ -51,6 +62,31 @@ public abstract class Acquisitor {
 	 * @return 시스템 성능 정보 메시지
 	 */
 	protected abstract String acquireMetrics() throws Exception;
+	
+	/**
+	 * 
+	 */
+	@PostConstruct
+	public void init() {
+		
+		this.hostName = environment.getProperty("app.host");
+		
+		if(StringUtil.isBlank(this.hostName) == true) {
+			
+			String runtimeName = ManagementFactory.getRuntimeMXBean().getName();
+			
+			if(runtimeName != null) {
+				
+				String[] splitedRuntimeName = runtimeName.split("@");
+				
+				if(splitedRuntimeName.length > 1) {
+					this.hostName = splitedRuntimeName[1];
+				} else {
+					this.hostName = "N/A";
+				}
+			}
+		}
+	}
 
 	/**
 	 * 
@@ -74,7 +110,7 @@ public abstract class Acquisitor {
 						if(toExporterQueue != null) {
 							
 							if(message != null) {
-								System.out.println("SEND: " + message);
+								System.out.println("SEND:" + message);
 								toExporterQueue.put(message);
 							}
 						} else {
@@ -97,15 +133,17 @@ public abstract class Acquisitor {
 	 * @param msgObj
 	 * @return
 	 */
-	protected String toJSON(Object msgObj) throws Exception {
+	protected String toJSON(Map<String, Object> msgObj) throws Exception {
 		
 		if(msgObj == null) {
 			throw new IllegalArgumentException("msgObj is null.");
 		}
 		
+		msgObj.put("host", this.hostName);
+		
 		return this.objMapper.writeValueAsString(msgObj);
 	}
-
+	
 	/**
 	 * 
 	 */

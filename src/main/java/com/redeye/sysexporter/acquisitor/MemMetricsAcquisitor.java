@@ -32,6 +32,6 @@ public class MemMetricsAcquisitor extends Acquisitor{
 		memMetrics.put("total", memory.getTotal());
 		memMetrics.put("available", memory.getAvailable());
 		
-		return this.objMapper.writeValueAsString(memMetrics);
+		return this.toJSON(memMetrics);
 	}
 }

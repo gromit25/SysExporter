@@ -33,7 +33,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 	 * 
 	 */
 	record NetIFRateMetrics (
-		String networkIFName,
+		String name,
 		double recvRate,
 		double sentRate
 	){};
@@ -114,6 +114,6 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 		netIFMetricsMap.put("type", "network");
 		netIFMetricsMap.put("interface", netIFRateMetricsList);
 		
-		return this.objMapper.writeValueAsString(netIFMetricsMap);
+		return this.toJSON(netIFMetricsMap);
 	}
 }

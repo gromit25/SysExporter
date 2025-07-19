@@ -35,7 +35,7 @@ public abstract class Acquisitor {
 	private SystemInfo sysInfo = new SystemInfo();
 	
 	/** */
-	protected ObjectMapper objMapper = new ObjectMapper();
+	private ObjectMapper objMapper = new ObjectMapper();
 	
 	
 	/**
@@ -89,6 +89,21 @@ public abstract class Acquisitor {
 		);
 		
 		this.cronAcquisitor.run();
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param msgObj
+	 * @return
+	 */
+	protected String toJSON(Object msgObj) throws Exception {
+		
+		if(msgObj == null) {
+			throw new IllegalArgumentException("msgObj is null.");
+		}
+		
+		return this.objMapper.writeValueAsString(msgObj);
 	}
 
 	/**

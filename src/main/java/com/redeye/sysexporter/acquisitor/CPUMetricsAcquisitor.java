@@ -58,6 +58,6 @@ public class CPUMetricsAcquisitor extends Acquisitor {
 		cpuMetricsMap.put("type", "cpu");
 		cpuMetricsMap.put("usage", avgLoad);
 		
-		return this.objMapper.writeValueAsString(cpuMetricsMap);
+		return this.toJSON(cpuMetricsMap);
 	}
 }

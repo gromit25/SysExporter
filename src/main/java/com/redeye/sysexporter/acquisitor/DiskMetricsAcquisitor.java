@@ -114,6 +114,6 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 		diskMetricsMap.put("type", "disk");
 		diskMetricsMap.put("disk", diskRateMetricsList);
 		
-		return this.objMapper.writeValueAsString(diskMetricsMap);
+		return this.toJSON(diskMetricsMap);
 	}
 }

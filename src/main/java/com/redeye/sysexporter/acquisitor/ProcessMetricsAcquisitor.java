@@ -8,10 +8,15 @@ import oshi.software.os.OSProcess;
 
 @Component
 public class ProcessMetricsAcquisitor extends Acquisitor {
+	
+	@Override
+	protected String getName() {
+		return "process metrics acquisitor";
+	}
 
 	@Override
 	protected String acquireMetrics() {
-		
+/*		
 		List<OSProcess> procList = this.getSysInfo().getOperatingSystem().getProcesses();
 		
 		for(OSProcess proc: procList) {
@@ -34,5 +39,7 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 				System.out.println(procMetrics.toString());
 			}
 		}
+*/
+		return null;
 	}
 }

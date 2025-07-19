@@ -11,10 +11,13 @@ import oshi.hardware.CentralProcessor;
  */
 @Component
 public class CPUMetricsAcquisitor extends Acquisitor {
-	
-	/**
-	 * 
-	 */
+
+	@Override
+	protected String getName() {
+		return "cpu metrics acqusitor";
+	}
+
+	@Override
 	protected String acquireMetrics() {
 		
 		// CPU

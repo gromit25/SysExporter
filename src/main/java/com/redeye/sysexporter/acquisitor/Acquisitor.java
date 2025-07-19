@@ -4,6 +4,7 @@ import java.util.concurrent.BlockingQueue;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jutools.CronJob;
 
 import lombok.AccessLevel;
@@ -33,19 +34,30 @@ public abstract class Acquisitor {
 	@Getter(AccessLevel.PROTECTED)
 	private SystemInfo sysInfo = new SystemInfo();
 	
+	/** */
+	protected ObjectMapper objMapper = new ObjectMapper();
+	
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	protected abstract String getName();
+	
 	/**
 	 * 
 	 * 
 	 * @return 시스템 성능 정보 메시지
 	 */
-	protected abstract String acquireMetrics();
+	protected abstract String acquireMetrics() throws Exception;
 
 	/**
 	 * 
 	 */
 	public void start() throws Exception {
 		
-		log.info("start");
+		log.info("start " + this.getName());
 		
 		this.cronAcquisitor = new CronJob(
 			this.scheduleStr,
@@ -60,15 +72,17 @@ public abstract class Acquisitor {
 						
 						//
 						if(toExporterQueue != null) {
+							
 							if(message != null) {
-								toExporterQueue.put(message);
+								System.out.println(message);
+								//toExporterQueue.put(message);
 							}
 						} else {
 							log.info("toExporterQueue is null.");
 						}
 						
-					} catch (InterruptedException ex) {
-						log.error("interrupt exception", ex);
+					} catch (Exception ex) {
+						log.error("exception at " + getName(), ex);
 					}
 				}
 			}

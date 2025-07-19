@@ -82,7 +82,6 @@ public class SysExporterApplication implements CommandLineRunner {
 	
 	/**
 	 * 
-	 * @throws Exception
 	 */
 	private void prepare() throws Exception {
 		
@@ -103,8 +102,8 @@ public class SysExporterApplication implements CommandLineRunner {
 		//this.cpuAcquisitor.start();
 		//this.memAcquisitor.start();
 		//this.diskAcquisitor.start();
-		//this.netAcquisitor.start();
-		this.procAcquisitor.start();
+		this.netAcquisitor.start();
+		//this.procAcquisitor.start();
 	}
 	
 	private void stopAcquisitor() throws Exception {

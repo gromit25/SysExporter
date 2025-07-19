@@ -86,6 +86,8 @@ public abstract class Acquisitor {
 				}
 			}
 		}
+		
+		log.info("host name:" + this.hostName);
 	}
 
 	/**

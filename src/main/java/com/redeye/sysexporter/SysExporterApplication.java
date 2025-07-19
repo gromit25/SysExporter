@@ -21,7 +21,7 @@ import com.redeye.sysexporter.exporter.KafkaExporter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 
+ * 시스템 성능 정보 수집 메인 클래스
  * 
  * @author jmsohn
  */
@@ -32,30 +32,36 @@ public class SysExporterApplication implements CommandLineRunner {
 	@Value("${app.stop.file}")
 	private File stopFile;
 	
-	/** */
+	/** exporter 전달용 큐(Acquisitor -> Exporter)*/
 	private BlockingQueue<String> toExporterQueue;
 	
+	/** CPU 성능 수집기 */
 	@Autowired
 	private CPUMetricsAcquisitor cpuAcquisitor;
 	
+	/** 메모리 성능 수집기 */
 	@Autowired
 	private MemMetricsAcquisitor memAcquisitor;
 	
+	/** 네트워크 성는 수집기 */
 	@Autowired
 	private NetworkMetricsAcquisitor netAcquisitor;
 	
+	/** 디스크 성능 수집기 */
 	@Autowired
 	private DiskMetricsAcquisitor diskAcquisitor;
 	
+	/** 프로세스 성능 수집기 */
 	@Autowired
 	private ProcessMetricsAcquisitor procAcquisitor;
 	
+	/** 외부 출력기 */
 	@Autowired
 	private KafkaExporter exporter;
 	
 	
 	/**
-	 * 
+	 * 수집기 메인 메소드
 	 * 
 	 * @param args
 	 */
@@ -66,11 +72,11 @@ public class SysExporterApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		// 준비
+		// 준비 작업
 		log.info("prepare to start sys-collector");
 		this.prepare();
 		
-		// 
+		// 성능 수집기 시작
 		log.info("start sys-collector");
 		this.startExporter();
 		this.startAcquisitor();
@@ -85,7 +91,7 @@ public class SysExporterApplication implements CommandLineRunner {
 	}
 	
 	/**
-	 * 
+	 * 시작전 준비 작업
 	 */
 	private void prepare() throws Exception {
 		
@@ -101,7 +107,7 @@ public class SysExporterApplication implements CommandLineRunner {
 	}
 	
 	/**
-	 * 
+	 * 성능 정보 수집 시작
 	 */
 	private void startAcquisitor() throws Exception {
 		
@@ -112,6 +118,9 @@ public class SysExporterApplication implements CommandLineRunner {
 		//this.procAcquisitor.start();
 	}
 	
+	/**
+	 * 성능 정보 수집 중단
+	 */
 	private void stopAcquisitor() throws Exception {
 		this.cpuAcquisitor.stop();
 		this.memAcquisitor.stop();
@@ -121,14 +130,14 @@ public class SysExporterApplication implements CommandLineRunner {
 	}
 
 	/**
-	 * 
+	 * 외부 출력기 시작
 	 */
 	private void startExporter() throws Exception {
 		this.exporter.start();
 	}
 
 	/**
-	 * 
+	 * 외부 출력기 중단
 	 */
 	private void stopExporter() throws Exception {
 		this.exporter.stop();

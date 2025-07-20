@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import oshi.hardware.NetworkIF;
 
 /**
- * 
+ * 네트워크 정보 수집기
  * 
  * @author jmsohn
  */
@@ -20,7 +20,7 @@ import oshi.hardware.NetworkIF;
 public class NetworkMetricsAcquisitor extends Acquisitor {
 	
 	/**
-	 * 
+	 * 네트워크 성능 데이터(누적)
 	 */
 	record NetIFTotalMetrics (
 		long timestamp,
@@ -30,7 +30,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 	){};
 	
 	/**
-	 * 
+	 * 네트워크 성능 데이터(비율, 최근 1초)
 	 */
 	record NetIFRateMetrics (
 		String name,

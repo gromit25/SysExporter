@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import oshi.hardware.CentralProcessor;
 
 /**
- * 
+ * CPU 성능 정보 수집기
  * 
  * @author jmsohn
  */

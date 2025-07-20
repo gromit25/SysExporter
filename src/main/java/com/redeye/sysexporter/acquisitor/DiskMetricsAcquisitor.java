@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import oshi.hardware.HWDiskStore;
 
 /**
- * 
+ * 디스크 정보 수집기
  * 
  * @author jmsohn
  */
@@ -20,7 +20,7 @@ import oshi.hardware.HWDiskStore;
 public class DiskMetricsAcquisitor extends Acquisitor {
 	
 	/**
-	 * 
+	 * 디스크 성능 데이터(누적)
 	 */
 	record DiskTotalMetrics (
 		long timestamp,
@@ -30,7 +30,7 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 	){};
 	
 	/**
-	 * 
+	 * 디스크 성능 데이터(비율, 최근 1초)
 	 */
 	record DiskRateMetrics (
 		String name,

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import oshi.hardware.GlobalMemory;
 
 /**
- * 
+ * 메모리 성능 정보 수집기
  * 
  * @author jmsohn
  */

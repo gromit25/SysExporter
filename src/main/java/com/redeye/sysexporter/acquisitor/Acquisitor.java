@@ -16,7 +16,6 @@ import com.jutools.StringUtil;
 import jakarta.annotation.PostConstruct;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import oshi.SystemInfo;
 

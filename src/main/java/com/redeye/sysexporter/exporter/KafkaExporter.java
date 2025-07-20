@@ -3,6 +3,9 @@ package com.redeye.sysexporter.exporter;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import lombok.Getter;
@@ -20,12 +23,15 @@ public class KafkaExporter {
 	private volatile boolean stop = true;
 	
 	/** */
-	@Getter
-	@Setter
+	@Autowired
+	@Qualifier("toExporterQueue")
 	private BlockingQueue<String> toExporterQueue;
 	
 	/** */
 	private Thread exporterThread;
+	
+	@Autowired
+	private KafkaTemplate kafkaTemplate;
 
 	
 	/**
@@ -57,7 +63,7 @@ public class KafkaExporter {
 						stop = true;
 						Thread.currentThread().interrupt();
 					}
-				}				
+				}
 			}
 		});
 		

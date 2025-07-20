@@ -1,8 +1,6 @@
 package com.redeye.sysexporter;
 
 import java.io.File;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,9 +30,6 @@ public class SysExporterApplication implements CommandLineRunner {
 	
 	@Value("${app.stop.file}")
 	private File stopFile;
-	
-	/** exporter 전달용 큐(Acquisitor -> Exporter)*/
-	private BlockingQueue<String> toExporterQueue;
 	
 	/** CPU 성능 수집기 */
 	@Autowired
@@ -73,10 +68,6 @@ public class SysExporterApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		// 준비 작업
-		log.info("prepare to start sys-collector");
-		this.prepare();
-		
 		// 성능 수집기 시작
 		log.info("start sys-collector");
 		this.startExporter();
@@ -89,22 +80,6 @@ public class SysExporterApplication implements CommandLineRunner {
 		log.info("stop sys-collector");
 		this.stopAcquisitor();;
 		this.stopExporter();
-	}
-	
-	/**
-	 * 시작전 준비 작업
-	 */
-	private void prepare() throws Exception {
-		
-		this.toExporterQueue = new LinkedBlockingQueue<>();
-		
-		this.cpuAcquisitor.setToExporterQueue(this.toExporterQueue);
-		this.memAcquisitor.setToExporterQueue(this.toExporterQueue);
-		this.diskAcquisitor.setToExporterQueue(this.toExporterQueue);
-		this.netAcquisitor.setToExporterQueue(this.toExporterQueue);
-		this.procAcquisitor.setToExporterQueue(this.toExporterQueue);
-		
-		this.exporter.setToExporterQueue(this.toExporterQueue);
 	}
 	
 	/**

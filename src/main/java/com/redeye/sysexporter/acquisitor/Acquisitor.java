@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 
@@ -46,8 +47,8 @@ public abstract class Acquisitor {
 	private CronJob cronAcquisitor;
 
 	/** exporter 큐 */
-	@Setter
-	@Getter
+	@Autowired
+	@Qualifier("toExporterQueue")
 	private BlockingQueue<String> toExporterQueue;
 	
 	/** 시스템 정보를 읽기 위한 OSHI 객체 */

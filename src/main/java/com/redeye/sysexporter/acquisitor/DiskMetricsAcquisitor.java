@@ -45,7 +45,7 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 	}
 
 	@Override
-	protected String acquireMetrics() throws Exception {
+	protected Map<String, Object> acquireMetrics() throws Exception {
 		
 		// 1. 데이터 수집을 위한 준비
 		Map<String, DiskTotalMetrics> preMetricsMap = new HashMap<>();
@@ -114,6 +114,6 @@ public class DiskMetricsAcquisitor extends Acquisitor {
 		diskMetricsMap.put("type", "disk");
 		diskMetricsMap.put("disk", diskRateMetricsList);
 		
-		return this.toJSON(diskMetricsMap);
+		return diskMetricsMap;
 	}
 }

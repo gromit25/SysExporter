@@ -20,51 +20,60 @@ import lombok.extern.slf4j.Slf4j;
 import oshi.SystemInfo;
 
 /**
- * 
+ * 수집기 추상 클래스
  * 
  * @author jmsohn
  */
 @Slf4j
 public abstract class Acquisitor {
 	
+	/** 스프링부트 환경 변수 객체 */
 	@Autowired
 	private Environment environment;
 	
+	/**
+	 * 호스트 명
+	 * application.properties의 app.host 로 설정 가능
+	 * 설정이 되지 않았거나 빈값일 경우, 컴퓨터 명을 디폴트로 설정됨
+	 */
 	private String hostName;
 
+	/** 수집 주기 */
 	@Value("${app.schedule}")
 	private String scheduleStr;
 	
+	/** 수집기 크론잡 */
 	private CronJob cronAcquisitor;
-	
+
+	/** exporter 큐 */
 	@Setter
 	@Getter
 	private BlockingQueue<String> toExporterQueue;
 	
-	/** */
+	/** 시스템 정보를 읽기 위한 OSHI 객체 */
 	@Getter(AccessLevel.PROTECTED)
 	private SystemInfo sysInfo = new SystemInfo();
 	
-	/** */
+	/** JSON 메시지를 만들기 위한 object mapper */
 	private ObjectMapper objMapper = new ObjectMapper();
 	
 	
 	/**
+	 * 수집기 명 반환
 	 * 
-	 * 
-	 * @return
+	 * @return 수집기 명
 	 */
 	protected abstract String getName();
 	
 	/**
+	 * 성능 정보 수집 후 봔환
 	 * 
-	 * 
-	 * @return 시스템 성능 정보 메시지
+	 * @return 시스템 성능 정보 객체
 	 */
-	protected abstract String acquireMetrics() throws Exception;
+	protected abstract Map<String, Object> acquireMetrics() throws Exception;
 	
 	/**
-	 * 
+	 * 컴포넌트 생성 후 초기화
 	 */
 	@PostConstruct
 	public void init() {
@@ -91,12 +100,13 @@ public abstract class Acquisitor {
 	}
 
 	/**
-	 * 
+	 * 수집 스레드 시작
 	 */
 	public void start() throws Exception {
 		
 		log.info("start " + this.getName());
 		
+		// 수집 크론잡 생성
 		this.cronAcquisitor = new CronJob(
 			this.scheduleStr,
 			new Runnable() {
@@ -105,16 +115,19 @@ public abstract class Acquisitor {
 				public void run() {
 					try {
 						
-						//
-						String message = acquireMetrics();
+						// 성능 데이터 수집
+						Map<String, Object> msgObj = acquireMetrics();
 						
-						//
+						// 수집된 성능 데이터를 큐로 전송
 						if(toExporterQueue != null) {
 							
-							if(message != null) {
+							if(msgObj != null) {
+								
+								String message = toJSON(msgObj);
 								System.out.println("SEND:" + message);
 								toExporterQueue.put(message);
 							}
+							
 						} else {
 							log.info("toExporterQueue is null.");
 						}
@@ -126,14 +139,15 @@ public abstract class Acquisitor {
 			}
 		);
 		
+		// 수집 크론잡 실행
 		this.cronAcquisitor.run();
 	}
 	
 	/**
+	 * 수집 데이터 Map 객체를 JSON 문자열로 변환
 	 * 
-	 * 
-	 * @param msgObj
-	 * @return
+	 * @param msgObj 수집 데이터 Map 객체 
+	 * @return 변환된 JSON 문자열
 	 */
 	protected String toJSON(Map<String, Object> msgObj) throws Exception {
 		
@@ -147,7 +161,7 @@ public abstract class Acquisitor {
 	}
 	
 	/**
-	 * 
+	 * 수집 프로세스 중지
 	 */
 	public void stop() {
 		

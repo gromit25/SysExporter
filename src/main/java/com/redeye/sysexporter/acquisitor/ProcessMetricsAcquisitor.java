@@ -1,6 +1,7 @@
 package com.redeye.sysexporter.acquisitor;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 	}
 
 	@Override
-	protected String acquireMetrics() {
+	protected Map<String, Object> acquireMetrics() {
 /*		
 		List<OSProcess> procList = this.getSysInfo().getOperatingSystem().getProcesses();
 		

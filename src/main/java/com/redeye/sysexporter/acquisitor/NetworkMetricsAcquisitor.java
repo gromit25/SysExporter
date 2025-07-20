@@ -45,7 +45,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 	}
 
 	@Override
-	protected String acquireMetrics() throws Exception {
+	protected Map<String, Object> acquireMetrics() throws Exception {
 		
 		// 1. 데이터 수집을 위한 준비
 		Map<String, NetIFTotalMetrics> preMetricsMap = new HashMap<>();
@@ -114,6 +114,6 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 		netIFMetricsMap.put("type", "network");
 		netIFMetricsMap.put("interface", netIFRateMetricsList);
 		
-		return this.toJSON(netIFMetricsMap);
+		return netIFMetricsMap;
 	}
 }

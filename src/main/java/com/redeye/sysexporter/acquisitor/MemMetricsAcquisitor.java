@@ -21,7 +21,7 @@ public class MemMetricsAcquisitor extends Acquisitor{
 	}
 
 	@Override
-	protected String acquireMetrics() throws Exception {
+	protected Map<String, Object> acquireMetrics() throws Exception {
 		
 		// Memory 정보 수집
 		GlobalMemory memory = this.getSysInfo().getHardware().getMemory();
@@ -32,6 +32,6 @@ public class MemMetricsAcquisitor extends Acquisitor{
 		memMetrics.put("total", memory.getTotal());
 		memMetrics.put("available", memory.getAvailable());
 		
-		return this.toJSON(memMetrics);
+		return memMetrics;
 	}
 }

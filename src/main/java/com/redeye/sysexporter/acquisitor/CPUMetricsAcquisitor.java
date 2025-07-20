@@ -23,7 +23,7 @@ public class CPUMetricsAcquisitor extends Acquisitor {
 	}
 
 	@Override
-	protected String acquireMetrics() throws Exception {
+	protected Map<String, Object> acquireMetrics() throws Exception {
 		
 		// 1. 데이터 수집을 위한 준비
 		CentralProcessor cpu = this.getSysInfo().getHardware().getProcessor();
@@ -58,6 +58,6 @@ public class CPUMetricsAcquisitor extends Acquisitor {
 		cpuMetricsMap.put("type", "cpu");
 		cpuMetricsMap.put("usage", avgLoad);
 		
-		return this.toJSON(cpuMetricsMap);
+		return cpuMetricsMap;
 	}
 }

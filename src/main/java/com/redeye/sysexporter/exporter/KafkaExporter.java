@@ -31,7 +31,7 @@ public class KafkaExporter {
 	private Thread exporterThread;
 	
 	@Autowired
-	private KafkaTemplate kafkaTemplate;
+	private KafkaTemplate<String, String> kafkaTemplate;
 
 	
 	/**
@@ -58,6 +58,8 @@ public class KafkaExporter {
 						}
 						
 						System.out.println("RECV:" + message);
+						
+						kafkaTemplate.send("topic", message);
 						
 					} catch(InterruptedException iex) {
 						stop = true;

@@ -21,7 +21,8 @@ import com.redeye.sysexporter.exporter.KafkaExporter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 시스템 성능 정보 수집 메인 클래스
+ * 시스템 성능 정보 수집 메인 클래스<br>
+ * 수집기(Acquisitor -> BlockingQueue -> Exporter)
  * 
  * @author jmsohn
  */

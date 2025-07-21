@@ -154,7 +154,9 @@ public abstract class Acquisitor {
 		if(msgObj == null) {
 			throw new IllegalArgumentException("msgObj is null.");
 		}
-		
+
+		// 기준 시간 및 호스트 정보 추가
+		msgObj.put("timestamp", this.cronAcquisitor.getCurrentBaseTime());
 		msgObj.put("host", this.hostName);
 		
 		return this.objMapper.writeValueAsString(msgObj);

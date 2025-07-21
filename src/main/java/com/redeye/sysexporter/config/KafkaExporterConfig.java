@@ -53,7 +53,6 @@ public class KafkaExporterConfig {
 		return new DefaultKafkaProducerFactory<>(configProps);
 	}
 	
-
 	/**
  	 * kafka template 생성 후 반환
 	 *

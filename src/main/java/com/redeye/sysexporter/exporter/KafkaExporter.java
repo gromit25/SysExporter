@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * 
  * 
@@ -57,11 +54,10 @@ public class KafkaExporter {
 							continue;
 						}
 						
-						System.out.println("RECV:" + message);
-						
-						kafkaTemplate.send("topic", message);
+						kafkaTemplate.send("sys_metrics", message);
 						
 					} catch(InterruptedException iex) {
+						
 						stop = true;
 						Thread.currentThread().interrupt();
 					}

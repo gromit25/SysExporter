@@ -35,7 +35,7 @@ public class KafkaExporterConfig {
 	 * @return kafka producer factory 객체
 	 */
 	@Bean
-	public ProducerFactory<String, String> producerFactory(
+	ProducerFactory<String, String> producerFactory(
 		@Value("${app.exporter.kafka.host}") String host
 	) {
 		
@@ -60,7 +60,7 @@ public class KafkaExporterConfig {
 	 * @return kafka template 객체
 	 */
 	@Bean
-	public KafkaTemplate<String, String> kafkaTemplate(
+	KafkaTemplate<String, String> kafkaTemplate(
 		@Qualifier("producerFactory") ProducerFactory<String, String> producerFactory 
 	) {
 		return new KafkaTemplate<>(producerFactory);

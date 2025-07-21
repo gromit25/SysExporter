@@ -16,6 +16,11 @@ import org.springframework.kafka.core.ProducerFactory;
 
 import com.jutools.StringUtil;
 
+/**
+ * kafka exporter 에서 사용할  kafkaTemplate 객체 생성 컴포넌트
+ *
+ * @author jmsohn
+ */
 @Configuration
 @ConditionalOnProperty
 (
@@ -23,7 +28,12 @@ import com.jutools.StringUtil;
 	havingValue = "KAFKA"
 )
 public class KafkaExporterConfig {
-	
+
+	/**
+	 * kafka producer factory 생성
+	 * 
+	 * @return kafka producer factory 객체
+	 */
 	@Bean
 	public ProducerFactory<String, String> producerFactory(
 		@Value("${app.exporter.kafka.host}") String host
@@ -33,16 +43,23 @@ public class KafkaExporterConfig {
 			throw new IllegalArgumentException("app.exporter.kafka.host is null or blank.");
 		}
 
-        Map<String, Object> configProps = new HashMap<>();
+		Map<String, Object> configProps = new HashMap<>();
 
-        // 연결 설정
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, host);
-        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+		// 연결 설정
+		configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, host);
+		configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+		configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
-        return new DefaultKafkaProducerFactory<>(configProps);
-    }
+		return new DefaultKafkaProducerFactory<>(configProps);
+	}
 	
+
+	/**
+ 	 * kafka template 생성 후 반환
+	 *
+	 * @param producerFactory kafka producer factory
+	 * @return kafka template 객체
+	 */
 	@Bean
 	public KafkaTemplate<String, String> kafkaTemplate(
 		@Qualifier("producerFactory") ProducerFactory<String, String> producerFactory 

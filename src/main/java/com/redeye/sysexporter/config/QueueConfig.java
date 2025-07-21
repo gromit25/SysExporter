@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 
+ * acquisitor -> exporter 전달용 큐 생성 컴포넌트
  * 
  * @author jmsohn
  */
@@ -15,8 +15,9 @@ import org.springframework.context.annotation.Configuration;
 public class QueueConfig {
 
 	/**
-	 * 
-	 * @return
+	 * 큐 생성 후 반환
+  	 * 
+	 * @return 생성된 큐
 	 */
 	@Bean("toExporterQueue")
 	BlockingQueue<String> toExporterQueue() {

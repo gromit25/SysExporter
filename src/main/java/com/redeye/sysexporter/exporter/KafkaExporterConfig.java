@@ -17,7 +17,7 @@ import org.springframework.kafka.core.ProducerFactory;
 import com.jutools.StringUtil;
 
 /**
- * kafka exporter 에서 사용할  kafkaTemplate 객체 생성 컴포넌트
+ * kafka exporter 및 kafkaTemplate 객체 생성 컴포넌트
  *
  * @author jmsohn
  */

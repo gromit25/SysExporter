@@ -55,6 +55,7 @@ public class KafkaExporterConfig {
 	/**
 	 * kafka producer factory 생성
 	 * 
+	 * @param host 접속할 kafka 호스트 명
 	 * @return kafka producer factory 객체
 	 */
 	@Bean

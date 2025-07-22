@@ -30,6 +30,19 @@ import com.jutools.StringUtil;
 public class KafkaExporterConfig {
 
 	/**
+ 	 * kafka template 생성 후 반환
+	 *
+	 * @param producerFactory kafka producer factory
+	 * @return kafka template 객체
+	 */
+	@Bean
+	KafkaTemplate<String, String> kafkaTemplate(
+		@Qualifier("producerFactory") ProducerFactory<String, String> producerFactory 
+	) {
+		return new KafkaTemplate<>(producerFactory);
+	}
+
+	/**
 	 * kafka producer factory 생성
 	 * 
 	 * @return kafka producer factory 객체
@@ -51,18 +64,5 @@ public class KafkaExporterConfig {
 		configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
 		return new DefaultKafkaProducerFactory<>(configProps);
-	}
-	
-	/**
- 	 * kafka template 생성 후 반환
-	 *
-	 * @param producerFactory kafka producer factory
-	 * @return kafka template 객체
-	 */
-	@Bean
-	KafkaTemplate<String, String> kafkaTemplate(
-		@Qualifier("producerFactory") ProducerFactory<String, String> producerFactory 
-	) {
-		return new KafkaTemplate<>(producerFactory);
 	}
 }

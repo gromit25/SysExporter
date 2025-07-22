@@ -31,17 +31,17 @@ public class KafkaExporterConfig {
 
 	/**
 	 * kafka exporter 생성 후 반환
-  	 *
-    	 * @return kafka exporter
-      	 */
+	 * 
+	 * @return kafka exporter
+	 */
 	@Bean("exporter")
 	Exporter kafkaExporter() {
 		return new KafkaExporter();
 	}
 
 	/**
- 	 * kafka template 생성 후 반환
-	 *
+	 * kafka template 생성 후 반환
+	 * 
 	 * @param producerFactory kafka producer factory
 	 * @return kafka template 객체
 	 */

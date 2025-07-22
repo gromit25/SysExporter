@@ -1,4 +1,4 @@
-package com.redeye.sysexporter.exporter;
+package com.redeye.sysexporter.exporter.kafka;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +15,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 
 import com.jutools.StringUtil;
+import com.redeye.sysexporter.exporter.Exporter;
 
 /**
  * kafka exporter 및 kafkaTemplate 객체 생성 컴포넌트

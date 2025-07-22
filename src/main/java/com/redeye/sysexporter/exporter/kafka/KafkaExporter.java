@@ -1,4 +1,4 @@
-package com.redeye.sysexporter.exporter;
+package com.redeye.sysexporter.exporter.kafka;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 
 import com.jutools.StringUtil;
+import com.redeye.sysexporter.exporter.Exporter;
 
 /**
  * Kafka Exporter

@@ -1,8 +1,10 @@
-package com.redeye.sysexporter.exporter;
+package com.redeye.sysexporter.exporter.print;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.redeye.sysexporter.exporter.Exporter;
 
 /**
  * print exporter 생성 컴포넌트

@@ -1,4 +1,6 @@
-package com.redeye.sysexporter.exporter;
+package com.redeye.sysexporter.exporter.print;
+
+import com.redeye.sysexporter.exporter.Exporter;
 
 /**
  * printer exporter 컴포넌트

@@ -1,54 +1,78 @@
 package com.redeye.sysexporter.exporter;
 
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
 
 import com.jutools.StringUtil;
 
 /**
- * Kafka Exporter
- * 
+ * kafka exporter 에서 사용할  kafkaTemplate 객체 생성 컴포넌트
+ *
  * @author jmsohn
  */
-public class KafkaExporter extends Exporter {
+@Configuration
+@ConditionalOnProperty
+(
+	value = "app.exporter.type",
+	havingValue = "KAFKA"
+)
+public class KafkaExporterConfig {
 
-	/** kafka 전송 객체 */
-	@Autowired
-	private KafkaTemplate<String, String> kafkaTemplate;
-	
-	/** kafka 전송 토픽 */
-	@Value("${app.exporter.kafka.topic}")
-	private String topic;
-	
-	
-	@Override
-	public void send(String message) throws Exception {
-		
-		if(StringUtil.isBlank(message) == true) {
-			return;
-		}
-		
-		this.kafkaTemplate.send(this.topic, getKey(message), message);
-	}
-	
 	/**
-	 * kafka 전송시 사용할 key를 생성하여 반환함
+	 * kafka exporter 생성 후 반환
 	 * 
-	 * @param message 전송할 메시지
-	 * @return 생성된 key
+	 * @return kafka exporter
 	 */
-	private static String getKey(String message) {
-		
-		JSONObject messageJSON = new JSONObject(message);
+	@Bean("exporter")
+	Exporter kafkaExporter() {
+		return new KafkaExporter();
+	}
 
-		// sys-exporter:host:type
-		return new StringBuilder()
-			.append("sys-exporter:")
-			.append(messageJSON.getString("host"))
-			.append(":")
-			.append(messageJSON.getString("type"))
-			.toString();
+	/**
+	 * kafka template 생성 후 반환
+	 * 
+	 * @param producerFactory kafka producer factory
+	 * @return kafka template 객체
+	 */
+	@Bean
+	KafkaTemplate<String, String> kafkaTemplate(
+		@Qualifier("producerFactory") ProducerFactory<String, String> producerFactory 
+	) {
+		return new KafkaTemplate<>(producerFactory);
+	}
+
+	/**
+	 * kafka producer factory 생성
+	 * 
+	 * @return kafka producer factory 객체
+	 */
+	@Bean
+	ProducerFactory<String, String> producerFactory(
+		@Value("${app.exporter.kafka.host}") String host
+	) {
+		
+		if(StringUtil.isBlank(host) == true) {
+			throw new IllegalArgumentException("app.exporter.kafka.host is null or blank.");
+		}
+
+		Map<String, Object> configProps = new HashMap<>();
+
+		// 연결 설정
+		configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, host);
+		configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+		configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+		return new DefaultKafkaProducerFactory<>(configProps);
 	}
 }

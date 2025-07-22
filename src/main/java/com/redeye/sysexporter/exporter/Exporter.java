@@ -9,39 +9,41 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 
+ * exporter 추상 클래스
  * 
  * @author jmsohn
  */
 @Slf4j
 public abstract class Exporter {
 	
-	/** */
+	/** 중단 여부 */
 	private volatile boolean stop = true;
 	
-	/** */
+	/** acquisitor -> exporter 연결 큐*/
 	@Autowired
 	@Qualifier("toExporterQueue")
 	private BlockingQueue<String> toExporterQueue;
 	
-	/** */
+	/** exporter thread 객체 */
 	private Thread exporterThread;
 	
 	
 	/**
+	 * exporter 발송 메소드
 	 * 
-	 * 
-	 * @param message
+	 * @param message 발송할 메시지
 	 */
 	public abstract void send(String message) throws Exception;
 	
 	/**
-	 * 
+	 * exporter 스레드 시작 메소드
 	 */
 	public void start() throws Exception {
-		
+
+		// 중단 상태 변경
 		this.stop = false;
-		
+
+		// exporter 스레드 생성
 		this.exporterThread = new Thread(new Runnable() {
 			
 			@Override
@@ -72,12 +74,13 @@ public abstract class Exporter {
 				}
 			}
 		});
-		
+
+		// exporter 스레드 시작
 		this.exporterThread.start();
 	}
 	
 	/**
-	 * 
+	 * exporter 스레드 중지
 	 */
 	public void stop() throws Exception {
 		

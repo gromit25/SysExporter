@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * kafka exporter 에서 사용할  kafkaTemplate 객체 생성 컴포넌트
+ * print exporter 생성 컴포넌트
  *
  * @author jmsohn
  */
@@ -18,9 +18,9 @@ import org.springframework.context.annotation.Configuration;
 public class PrintExporterConfig {
 
 	/**
-	 * kafka exporter 생성 후 반환
+	 * print exporter 생성 후 반환
 	 * 
-	 * @return kafka exporter
+	 * @return print exporter
 	 */
 	@Bean("exporter")
 	Exporter printExporter() {

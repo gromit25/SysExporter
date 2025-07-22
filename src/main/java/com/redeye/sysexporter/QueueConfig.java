@@ -1,4 +1,4 @@
-package com.redeye.sysexporter.config;
+package com.redeye.sysexporter;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

@@ -15,7 +15,7 @@ import com.redeye.sysexporter.acquisitor.DiskMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.MemMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.NetworkMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.ProcessMetricsAcquisitor;
-import com.redeye.sysexporter.exporter.KafkaExporter;
+import com.redeye.sysexporter.exporter.Exporter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,7 +55,7 @@ public class SysExporterApplication implements CommandLineRunner {
 	/** 외부 출력기 */
 	@Autowired
 	@Qualifier("exporter")
-	private KafkaExporter exporter;
+	private Exporter exporter;
 	
 	
 	/**

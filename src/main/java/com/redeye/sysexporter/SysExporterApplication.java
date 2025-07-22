@@ -3,6 +3,7 @@ package com.redeye.sysexporter;
 import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -53,6 +54,7 @@ public class SysExporterApplication implements CommandLineRunner {
 	
 	/** 외부 출력기 */
 	@Autowired
+	@Qualifier("exporter")
 	private KafkaExporter exporter;
 	
 	

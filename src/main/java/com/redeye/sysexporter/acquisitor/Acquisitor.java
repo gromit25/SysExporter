@@ -28,7 +28,7 @@ import oshi.SystemInfo;
 public abstract class Acquisitor {
 	
 	/** 중단 상태 */
-	private boolean stop = true;
+	private volatile boolean stop = true;
 	
 	/** 스프링부트 환경 변수 객체 */
 	@Autowired

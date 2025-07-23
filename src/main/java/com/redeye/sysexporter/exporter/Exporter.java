@@ -38,7 +38,7 @@ public abstract class Exporter {
 	/**
 	 * exporter 스레드 시작 메소드
 	 */
-	public void start() throws Exception {
+	public void run() throws Exception {
 
 		// 중단 상태 변경
 		this.stop = false;
@@ -49,7 +49,7 @@ public abstract class Exporter {
 			@Override
 			public void run() {
 				
-				while(stop == false && Thread.currentThread().isInterrupted() == false) {
+				while(stop == false) {
 					
 					String message = null;
 				
@@ -63,12 +63,8 @@ public abstract class Exporter {
 						send(message);
 						
 					} catch(InterruptedException iex) {
-						
 						stop = true;
-						Thread.currentThread().interrupt();
-						
 					} catch(Exception ex) {
-						
 						log.error("exception", ex);
 					}
 				}

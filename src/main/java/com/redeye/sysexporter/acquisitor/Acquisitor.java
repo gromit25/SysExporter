@@ -105,7 +105,7 @@ public abstract class Acquisitor {
 	/**
 	 * 수집 스레드 시작
 	 */
-	public void start() throws Exception {
+	public void run() throws Exception {
 		
 		if(this.stop == false) {
 			throw new IllegalStateException("thread is already started.");

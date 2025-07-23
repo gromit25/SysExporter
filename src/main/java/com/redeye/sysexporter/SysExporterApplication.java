@@ -89,11 +89,11 @@ public class SysExporterApplication implements CommandLineRunner {
 	 */
 	private void startAcquisitor() throws Exception {
 		
-		this.cpuAcquisitor.start();
-		this.memAcquisitor.start();
-		this.diskAcquisitor.start();
-		this.netAcquisitor.start();
-		//this.procAcquisitor.start();
+		this.cpuAcquisitor.run();
+		this.memAcquisitor.run();
+		this.diskAcquisitor.run();
+		this.netAcquisitor.run();
+		//this.procAcquisitor.run();
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class SysExporterApplication implements CommandLineRunner {
 	 * 외부 출력기 시작
 	 */
 	private void startExporter() throws Exception {
-		this.exporter.start();
+		this.exporter.run();
 	}
 
 	/**

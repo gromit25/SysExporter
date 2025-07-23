@@ -27,13 +27,16 @@ import oshi.SystemInfo;
 @Slf4j
 public abstract class Acquisitor {
 	
+	/** 중단 상태 */
+	private boolean stop = true;
+	
 	/** 스프링부트 환경 변수 객체 */
 	@Autowired
 	private Environment environment;
 	
 	/**
-	 * 호스트 명
-	 * application.properties의 app.host 로 설정 가능
+	 * 호스트 명<br>
+	 * application.properties의 app.host 로 설정 가능<br>
 	 * 설정이 되지 않았거나 빈값일 경우, 컴퓨터 명을 디폴트로 설정됨
 	 */
 	private String hostName;
@@ -104,7 +107,12 @@ public abstract class Acquisitor {
 	 */
 	public void start() throws Exception {
 		
+		if(this.stop == false) {
+			throw new IllegalStateException("thread is already started.");
+		}
+		
 		log.info("start " + this.getName());
+		this.stop = false;
 		
 		// 수집 크론잡 생성
 		this.cronAcquisitor = new CronJob(
@@ -124,7 +132,7 @@ public abstract class Acquisitor {
 							if(msgObj != null) {
 								
 								String message = toJSON(msgObj);
-								System.out.println("SEND:" + message);
+								System.out.println("SEND: " + message);
 								toExporterQueue.put(message);
 							}
 							
@@ -165,9 +173,14 @@ public abstract class Acquisitor {
 	/**
 	 * 수집 프로세스 중지
 	 */
-	public void stop() {
+	public void stop() throws Exception {
+		
+		if(this.stop == true) {
+			throw new IllegalStateException("thread is already stopped.");
+		}
 		
 		log.info("stop " + this.getName());
+		this.stop = true;
 		
 		if(this.cronAcquisitor != null) {
 			this.cronAcquisitor.stop();

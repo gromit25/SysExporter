@@ -126,7 +126,7 @@
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
 							<mainClass>
-								com.redeye.schemaexporter.SchemaExporterApplication
+								com.redeye.sysexporter.SysExporterApplication
 							</mainClass>
 						</manifest>
 					</archive>

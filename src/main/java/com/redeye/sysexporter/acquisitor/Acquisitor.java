@@ -132,7 +132,6 @@ public abstract class Acquisitor {
 							if(msgObj != null) {
 								
 								String message = toJSON(msgObj);
-								System.out.println("SEND: " + message);
 								toExporterQueue.put(message);
 							}
 							

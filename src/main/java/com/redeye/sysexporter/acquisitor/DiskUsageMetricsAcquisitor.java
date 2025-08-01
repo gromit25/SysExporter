@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 
@@ -13,6 +15,7 @@ import oshi.software.os.OSFileStore;
  * 
  * @author jmsohn
  */
+@Component
 public class DiskUsageMetricsAcquisitor extends Acquisitor{
 
 	@Override

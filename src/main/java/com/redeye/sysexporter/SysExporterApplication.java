@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jutools.FileUtil;
 import com.redeye.sysexporter.acquisitor.CPUMetricsAcquisitor;
-import com.redeye.sysexporter.acquisitor.DiskIOMetricsAcquisitor;
+import com.redeye.sysexporter.acquisitor.DiskUsageMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.MemMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.NetworkMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.ProcessMetricsAcquisitor;
@@ -44,9 +44,9 @@ public class SysExporterApplication implements CommandLineRunner {
 	@Autowired
 	private NetworkMetricsAcquisitor netAcquisitor;
 	
-	/** 디스크 성능 수집기 */
+	/** 디스크 사용량 성능 수집기 */
 	@Autowired
-	private DiskIOMetricsAcquisitor diskAcquisitor;
+	private DiskUsageMetricsAcquisitor diskUsageAcquisitor;
 	
 	/** 프로세스 성능 수집기 */
 	@Autowired
@@ -91,7 +91,7 @@ public class SysExporterApplication implements CommandLineRunner {
 		
 		this.cpuAcquisitor.run();
 		this.memAcquisitor.run();
-		this.diskAcquisitor.run();
+		this.diskUsageAcquisitor.run();
 		this.netAcquisitor.run();
 		//this.procAcquisitor.run();
 	}
@@ -100,9 +100,10 @@ public class SysExporterApplication implements CommandLineRunner {
 	 * 성능 정보 수집 중단
 	 */
 	private void stopAcquisitor() throws Exception {
+		
 		this.cpuAcquisitor.stop();
 		this.memAcquisitor.stop();
-		this.diskAcquisitor.stop();
+		this.diskUsageAcquisitor.stop();
 		this.netAcquisitor.stop();
 		//this.procAcquisitor.stop();
 	}

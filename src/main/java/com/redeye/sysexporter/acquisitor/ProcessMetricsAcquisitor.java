@@ -12,7 +12,7 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return "process metrics acquisitor";
+		return "process";
 	}
 
 	@Override

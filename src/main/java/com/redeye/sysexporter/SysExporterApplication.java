@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jutools.FileUtil;
 import com.redeye.sysexporter.acquisitor.CPUMetricsAcquisitor;
-import com.redeye.sysexporter.acquisitor.DiskMetricsAcquisitor;
+import com.redeye.sysexporter.acquisitor.DiskIOMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.MemMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.NetworkMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.ProcessMetricsAcquisitor;
@@ -46,7 +46,7 @@ public class SysExporterApplication implements CommandLineRunner {
 	
 	/** 디스크 성능 수집기 */
 	@Autowired
-	private DiskMetricsAcquisitor diskAcquisitor;
+	private DiskIOMetricsAcquisitor diskAcquisitor;
 	
 	/** 프로세스 성능 수집기 */
 	@Autowired

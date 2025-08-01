@@ -17,7 +17,7 @@ import oshi.hardware.HWDiskStore;
  */
 @Slf4j
 @Component
-public class DiskMetricsAcquisitor extends Acquisitor {
+public class DiskIOMetricsAcquisitor extends Acquisitor {
 	
 	/**
 	 * 디스크 성능 데이터(누적)

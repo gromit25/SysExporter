@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import oshi.hardware.HWDiskStore;
 
 /**
- * 디스크 정보 수집기
+ * 디스크 IO 속도 정보 수집기
  * 
  * @author jmsohn
  */
@@ -41,7 +41,7 @@ public class DiskIOMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return "disk metrics acquisitor";
+		return "disk io";
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class DiskIOMetricsAcquisitor extends Acquisitor {
 		// 5. 메시지 객체 생성 및 반환(JSON)
 		Map<String, Object> diskMetricsMap = new HashMap<>();
 		
-		diskMetricsMap.put("type", "disk");
+		diskMetricsMap.put("type", "disk-io");
 		diskMetricsMap.put("disk", diskRateMetricsList);
 		
 		return diskMetricsMap;

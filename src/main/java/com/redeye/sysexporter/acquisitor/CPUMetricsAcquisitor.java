@@ -19,7 +19,7 @@ public class CPUMetricsAcquisitor extends Acquisitor {
 
 	@Override
 	protected String getName() {
-		return "cpu metrics acqusitor";
+		return "cpu usage";
 	}
 
 	@Override

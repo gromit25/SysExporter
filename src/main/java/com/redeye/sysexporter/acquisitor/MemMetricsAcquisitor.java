@@ -17,7 +17,7 @@ public class MemMetricsAcquisitor extends Acquisitor{
 	
 	@Override
 	protected String getName() {
-		return "memory metrics acquisitor";
+		return "memory usage";
 	}
 
 	@Override

@@ -8,11 +8,14 @@ import org.springframework.kafka.core.KafkaTemplate;
 import com.jutools.StringUtil;
 import com.redeye.sysexporter.exporter.Exporter;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Kafka Exporter
  * 
  * @author jmsohn
  */
+@Slf4j
 public class KafkaExporter extends Exporter {
 
 	/** kafka 전송 객체 */
@@ -31,7 +34,10 @@ public class KafkaExporter extends Exporter {
 			return;
 		}
 		
-		this.kafkaTemplate.send(this.topic, getKey(message), message);
+		String key = getKey(message);
+		log.info("SEND KAFKA: " + key);
+		
+		this.kafkaTemplate.send(this.topic, key, message);
 	}
 	
 	/**

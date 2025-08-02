@@ -3,7 +3,9 @@ package com.redeye.sysexporter.exporter.kafka;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Component;
 
 import com.jutools.StringUtil;
 import com.redeye.sysexporter.exporter.Exporter;
@@ -16,6 +18,12 @@ import lombok.extern.slf4j.Slf4j;
  * @author jmsohn
  */
 @Slf4j
+@Component("exporter")
+@ConditionalOnProperty
+(
+	value = "app.exporter.type",
+	havingValue = "KAFKA"
+)
 public class KafkaExporter extends Exporter {
 
 	/** kafka 전송 객체 */

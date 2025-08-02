@@ -61,17 +61,17 @@ public class KafkaExporterConfig {
 	 */
 	@Bean
 	ProducerFactory<String, String> producerFactory(
-		@Value("${app.exporter.kafka.host}") String host
+		@Value("${app.exporter.kafka.servers}") String servers
 	) {
 		
-		if(StringUtil.isBlank(host) == true) {
+		if(StringUtil.isBlank(servers) == true) {
 			throw new IllegalArgumentException("app.exporter.kafka.host is null or blank.");
 		}
 
 		Map<String, Object> configProps = new HashMap<>();
 
 		// 연결 설정
-		configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, host);
+		configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
 		configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 		configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 

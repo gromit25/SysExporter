@@ -34,6 +34,10 @@ public abstract class Acquisitor {
 	@Autowired
 	private Environment environment;
 	
+	/** 리전 : host 구분자 */
+	@Value("${app.region}")
+	private String region;
+	
 	/**
 	 * 호스트 명<br>
 	 * application.properties의 app.host 로 설정 가능<br>
@@ -164,6 +168,7 @@ public abstract class Acquisitor {
 
 		// 기준 시간 및 호스트 정보 추가
 		msgObj.put("timestamp", this.cronAcquisitor.getCurrentBaseTime());
+		msgObj.put("region", this.region);
 		msgObj.put("host", this.hostName);
 		
 		return this.objMapper.writeValueAsString(msgObj);

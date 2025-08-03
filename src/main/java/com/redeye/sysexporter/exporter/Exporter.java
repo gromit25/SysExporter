@@ -19,7 +19,7 @@ public abstract class Exporter {
 	/** 중단 여부 */
 	private volatile boolean stop = true;
 	
-	/** acquisitor -> exporter 연결 큐*/
+	/** acquisitor -> exporter 연결 큐 */
 	@Autowired
 	@Qualifier("toExporterQueue")
 	private BlockingQueue<String> toExporterQueue;

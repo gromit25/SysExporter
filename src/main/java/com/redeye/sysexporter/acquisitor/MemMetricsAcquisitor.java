@@ -30,7 +30,7 @@ public class MemMetricsAcquisitor extends Acquisitor{
 		Map<String, Object> memMetrics = new HashMap<>();
 		memMetrics.put("type", "memory");
 		memMetrics.put("total", memory.getTotal());
-		memMetrics.put("available", memory.getAvailable());
+		memMetrics.put("free", memory.getAvailable());
 		
 		return memMetrics;
 	}

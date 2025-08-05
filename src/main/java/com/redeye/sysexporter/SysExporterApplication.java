@@ -28,7 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SpringBootApplication
 public class SysExporterApplication implements CommandLineRunner {
-	
+
+	/** 중단 파일 - touch 될 경우 프로그램 중지됨 */
 	@Value("${app.stop.file}")
 	private File stopFile;
 	
@@ -93,7 +94,7 @@ public class SysExporterApplication implements CommandLineRunner {
 		this.memAcquisitor.run();
 		this.diskUsageAcquisitor.run();
 		this.netAcquisitor.run();
-		//this.procAcquisitor.run();
+		this.procAcquisitor.run();
 	}
 	
 	/**
@@ -105,7 +106,7 @@ public class SysExporterApplication implements CommandLineRunner {
 		this.memAcquisitor.stop();
 		this.diskUsageAcquisitor.stop();
 		this.netAcquisitor.stop();
-		//this.procAcquisitor.stop();
+		this.procAcquisitor.stop();
 	}
 
 	/**

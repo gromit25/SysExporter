@@ -46,7 +46,7 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 
 			OSProcess process = top5ProcesseList.get(index);
 			
-			// 프로세스 성능 정보 생성
+			// 프로세스 성능 정보 생성 및 추가
 			Map<String, Object> processMetrics = new HashMap<>();
 
 			processMetrics.put("order", index);

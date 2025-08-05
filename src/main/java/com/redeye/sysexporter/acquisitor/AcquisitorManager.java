@@ -12,6 +12,8 @@ public class AcquisitorManager {
   
   public AcquisitorManager(List<Acquisitor> acquisitorList) {
     this.acquisitorList = acquisitorList;
+
+    System.out.println("DEBUG 100:" + this.acqusitiorList.size());
   }
 
   public void run() throws Exception {

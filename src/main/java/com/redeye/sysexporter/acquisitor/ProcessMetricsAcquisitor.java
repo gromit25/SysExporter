@@ -17,7 +17,7 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return "process";
+		return "process top 5";
 	}
 
 	@Override

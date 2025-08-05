@@ -30,6 +30,7 @@ public class RestAPIExporter extends Exporter {
 
 	/** rest api 연결 클라이언트 */
 	@Autowired
+	@Qualifier("webClient")
 	private WebClient client;
 
 	

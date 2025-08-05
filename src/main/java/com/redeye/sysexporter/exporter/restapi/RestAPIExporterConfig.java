@@ -8,7 +8,6 @@ package com.redeye.sysexporter.exporter.restapi;
 }
 public class RestAPIExporterConfig {
   
-  
     @Bean("webClient")
     public WebClient webClient(
       @Value("app.exporter.restapi.url") String url

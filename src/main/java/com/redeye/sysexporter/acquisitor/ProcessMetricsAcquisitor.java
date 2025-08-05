@@ -1,11 +1,17 @@
 package com.redeye.sysexporter.acquisitor;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
 import oshi.software.os.OSProcess;
+import oshi.software.os.OperatingSystem;
+import oshi.software.os.OperatingSystem.ProcessSorting;
 
 /**
  * CPU 사용율 Top 5 프로세스의 성능 정보 수집

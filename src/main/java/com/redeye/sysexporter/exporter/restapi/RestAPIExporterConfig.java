@@ -13,8 +13,8 @@ public class RestAPIExporterConfig {
 		@Value("app.exporter.restapi.url") String url
 	) {
 		return WebClient.builder()
-			.baseUrl(url) // 기본 URL 설정
-			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) // 기본 헤더 설정
+			.baseUrl(url)
+			.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 			.build();
 	}
 }

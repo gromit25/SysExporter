@@ -27,7 +27,7 @@ public class AcquisitorManager {
 	 */
 	public void run() throws Exception {
     
-		if(this.acquisitor == null) {
+		if(this.acquisitorList == null) {
 			return;
 		}
 
@@ -41,7 +41,7 @@ public class AcquisitorManager {
 	 */
 	public void stop() throws Exception {
 
-		if(this.acquisitor == null) {
+		if(this.acquisitorList == null) {
 			return;
 		}
 

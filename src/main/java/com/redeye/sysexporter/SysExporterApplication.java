@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jutools.FileUtil;
+import com.redeye.sysexporter.acquisitor.AcquisitorManager;
 import com.redeye.sysexporter.acquisitor.CPUMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.DiskUsageMetricsAcquisitor;
 import com.redeye.sysexporter.acquisitor.MemMetricsAcquisitor;

@@ -1,5 +1,9 @@
 package com.redeye.sysexporter.acquisitor;
 
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 /**
  *
  *
@@ -19,7 +23,7 @@ public class AcquisitorManager {
 	public AcquisitorManager(List<Acquisitor> acquisitorList) {
 		this.acquisitorList = acquisitorList;
 
-		System.out.println("DEBUG 100:" + this.acqusitiorList.size());
+		System.out.println("DEBUG 100:" + this.acquisitorList.size());
 	}
 
 	/**

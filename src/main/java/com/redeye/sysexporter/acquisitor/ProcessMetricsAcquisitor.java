@@ -59,7 +59,13 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 
 			processMetricsList.add(processMetrics);
 		}
+		
+		//
+		Map<String, Object> processMetricsMap = new HashMap<>();
+		
+		processMetricsMap.put("type", "process-top");
+		processMetricsMap.put("process", processMetricsList);
 
-		return processMetricsList;
+		return processMetricsMap;
 	}
 }

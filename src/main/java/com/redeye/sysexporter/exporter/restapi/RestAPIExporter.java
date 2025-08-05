@@ -1,5 +1,20 @@
 package com.redeye.sysexporter.exporter.restapi;
 
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import com.jutools.StringUtil;
+import com.redeye.sysexporter.exporter.Exporter;
+
+import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
+
 /**
  *
  *
@@ -54,13 +69,13 @@ public class RestAPIExporter extends Exporter {
 			.uri(subpath)
 			.bodyValue(messageJSON)
 			.retrieve()
-			.onStatus(HttpStatus::isError, response -> {
+			.onStatus(HttpStatusCode::isError, response -> {
 				
 				// 오류 로깅
 				log.error("{}\t{}", response.statusCode(), subpath);
                     
 				// 예외를 발생시켜 Mono 체인에 에러를 전파
-				return response.createException().flatMap(Mono::error);
+				return response.createException().flatMap(throwable -> Mono.error(throwable));
 			})
 			.bodyToMono(Void.class);
 	}
@@ -70,15 +85,18 @@ public class RestAPIExporter extends Exporter {
 	 *
 	 * @param messageJSON
 	 */
-	private static void getSubpath(JSONObject messageJSON) throws Excepiton {
+	private static String getSubpath(JSONObject messageJSON) throws Exception {
 		
-		return switch(messageJSON.get()) {
-			case "cpu" -> String.format(SUBPATH_CPU, messageJSON.get());
-			case "memory" -> String.format(SUBPATH_MEM, messageJSON.get());
-			case "disk" -> String.format(SUBPATH_DISK, messageJSON.get());
-			case "netio" -> String.format(SUBPATH_PROCESS_TOP, messageJSON.get());
-			case "processTop" -> String.format(SUBPATH_PROCESS_TOP, messageJSON.get());
+		String type = messageJSON.getString("type");
+		String host = messageJSON.getString("host");
+		
+		return switch(type) {
+			case "cpu" -> String.format(SUBPATH_CPU, host);
+			case "memory" -> String.format(SUBPATH_MEM, host);
+			case "disk" -> String.format(SUBPATH_DISK, host);
+			case "netio" -> String.format(SUBPATH_PROCESS_TOP, host);
+			case "processTop" -> String.format(SUBPATH_PROCESS_TOP, host);
 			default -> throw new Exception("unknown type:" + type);
-		}
+		};
 	}
 }

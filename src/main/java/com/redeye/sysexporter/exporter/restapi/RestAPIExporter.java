@@ -36,20 +36,21 @@ public class RestAPIExporter extends Exporter {
 	
 	@Override
 	public void send(String message) throws Exception {
+		JSONObject messageJSON = new JSONObject(message);
 	}
 
-	private void sendCpuUsage(Map<String, Object> msgObj) throws Excepiton {
+	private void sendCpu(JSONObject messageJSON) throws Excepiton {
 	}
 
-	private void sendMem(Map<String, Object> msgObj) throws Exception {
+	private void sendMem(JSONObject messageJSON) throws Exception {
 	}
 
-	private void sendDisk(Map<String, Object> msgObj) throws Exception {
+	private void sendDisk(JSONObject messageJSON) throws Exception {
 	}
 
-	private void sendNetIO(Map<String, Object> msgObj) throws Exception {
+	private void sendNetIO(JSONObject messageJSON) throws Exception {
 	}
 
-	private void sendProcessTop(Map<String, Object> msgObj) throws Exception {
+	private void sendProcessTop(JSONObject messageJSON) throws Exception {
 	}
 }

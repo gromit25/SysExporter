@@ -46,7 +46,7 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 			processMetrics.put("order", index);
 			processMetrics.put("pid", process.getProcessID());
 			processMetrics.put("name", process.getName());
-			processMetrics.put("cpuUsage", 100d * (process.getProcessCpuLoadCumulative() / logicalCoreCount));
+			processMetrics.put("cpuUsage", 100 * (process.getProcessCpuLoadCumulative() / logicalCoreCount));
 			processMetrics.put("memUsed", process.getResidentSetSize());
 			processMetrics.put("diskReadSize", process.getBytesRead());
 			processMetrics.put("diskWriteSize", process.getBytesWritten());

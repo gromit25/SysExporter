@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;

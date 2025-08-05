@@ -4,7 +4,6 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -39,7 +38,7 @@ public class RestAPIExporter extends Exporter {
 	private static final String SUBPATH_DISK = "/host/%s/metrics/disk";
 	
 	/** network io 사용율 api subpath */
-	private static final String SUBPATH_NETIO = "/host/%s/metrics/netio";
+	private static final String SUBPATH_NETWORK = "/host/%s/metrics/network";
 	
 	/** process top 5 api subpath */
 	private static final String SUBPATH_PROCESS_TOP = "/host/%s/metrics/process/top";
@@ -94,8 +93,8 @@ public class RestAPIExporter extends Exporter {
 			case "cpu" -> String.format(SUBPATH_CPU, host);
 			case "memory" -> String.format(SUBPATH_MEM, host);
 			case "disk" -> String.format(SUBPATH_DISK, host);
-			case "netio" -> String.format(SUBPATH_PROCESS_TOP, host);
-			case "processTop" -> String.format(SUBPATH_PROCESS_TOP, host);
+			case "network" -> String.format(SUBPATH_NETWORK, host);
+			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, host);
 			default -> throw new Exception("unknown type:" + type);
 		};
 	}

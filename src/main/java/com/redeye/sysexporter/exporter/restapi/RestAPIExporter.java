@@ -5,6 +5,7 @@ package com.redeye.sysexporter.exporter.restapi;
  *
  * @author jmsohn
  */
+@Slf4j
 @Component
 @ConditionalOnProperty
 (
@@ -36,21 +37,48 @@ public class RestAPIExporter extends Exporter {
 	
 	@Override
 	public void send(String message) throws Exception {
+
+		// message가 null 이거나 blank 일 경우 반환
+		if(StringUtil.isBlank(message) == true) {
+			return;
+		}
+
+		// JSON 메시지로 변환
 		JSONObject messageJSON = new JSONObject(message);
+
+		// 호출할 Subpath 획득
+		String subpath = getSubpath(messageJSON);
+
+		// api 호출
+		client.post()
+			.uri(subpath)
+			.bodyValue(messageJSON)
+			.retrieve()
+			.onStatus(HttpStatus::isError, response -> {
+				
+				// 오류 로깅
+				log.error("{}\t{}", response.statusCode(), subpath);
+                    
+				// 예외를 발생시켜 Mono 체인에 에러를 전파
+				return response.createException().flatMap(Mono::error);
+			})
+			.bodyToMono(Void.class);
 	}
 
-	private void sendCpu(JSONObject messageJSON) throws Excepiton {
-	}
-
-	private void sendMem(JSONObject messageJSON) throws Exception {
-	}
-
-	private void sendDisk(JSONObject messageJSON) throws Exception {
-	}
-
-	private void sendNetIO(JSONObject messageJSON) throws Exception {
-	}
-
-	private void sendProcessTop(JSONObject messageJSON) throws Exception {
+	/**
+	 *
+	 *
+	 * @param messageJSON
+	 */
+	private static void getSubpath(JSONObject messageJSON) throws Excepiton {
+		
+		return switch(messageJSON.get()) {
+			case "cpu" -> String.format(SUBPATH_CPU, messageJSON.get());
+			case "memory" -> String.format(SUBPATH_MEM, messageJSON.get());
+			case "disk" -> String.format(SUBPATH_DISK, messageJSON.get());
+			case "netio" -> String.format(SUBPATH_PROCESS_TOP, messageJSON.get());
+			case "processTop" -> String.format(SUBPATH_PROCESS_TOP, messageJSON.get());
+			default -> throw new Exception("unknown type:" + type);
+		}
 	}
 }

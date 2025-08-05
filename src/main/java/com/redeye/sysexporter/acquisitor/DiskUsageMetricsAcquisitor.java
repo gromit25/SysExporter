@@ -25,7 +25,8 @@ public class DiskUsageMetricsAcquisitor extends Acquisitor{
 
 	@Override
 	protected Map<String, Object> acquireMetrics() throws Exception {
-		
+
+		// 디스크 별 정보 수집
 		FileSystem fs = this.getSysInfo().getOperatingSystem().getFileSystem();
 		List<OSFileStore> diskList = fs.getFileStores();
 		

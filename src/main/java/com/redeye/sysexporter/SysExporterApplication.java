@@ -52,6 +52,10 @@ public class SysExporterApplication implements CommandLineRunner {
 	/** 프로세스 성능 수집기 */
 	@Autowired
 	private ProcessMetricsAcquisitor procAcquisitor;
+
+	/** */
+	@Autowired
+	private AcquisitorManager acquisitorManager;
 	
 	/** 외부 출력기 */
 	@Autowired

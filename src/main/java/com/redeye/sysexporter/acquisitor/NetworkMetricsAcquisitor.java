@@ -108,7 +108,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 			);
 		}
 		
-		// 5. 메시지 객체 생성 및 반환(JSON)
+		// 5. 메시지 객체 생성 및 반환
 		Map<String, Object> netIFMetricsMap = new HashMap<>();
 		netIFMetricsMap.put("interface", netIFRateMetricsList);
 		

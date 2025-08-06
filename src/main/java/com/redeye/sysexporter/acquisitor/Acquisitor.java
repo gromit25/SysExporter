@@ -170,6 +170,7 @@ public abstract class Acquisitor {
 		msgObj.put("timestamp", this.cronAcquisitor.getCurrentBaseTime());
 		msgObj.put("region", this.region);
 		msgObj.put("host", this.hostName);
+		msgObj.put("type", this.getName());
 		
 		return this.objMapper.writeValueAsString(msgObj);
 	}

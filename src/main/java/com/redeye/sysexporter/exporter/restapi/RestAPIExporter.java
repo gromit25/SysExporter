@@ -90,7 +90,8 @@ public class RestAPIExporter extends Exporter {
 		String type = messageJSON.getString("type");
 		String host = messageJSON.getString("host");
 		
-		return switch(type) {
+		return
+		switch(type) {
 			case "cpu" -> String.format(SUBPATH_CPU, host);
 			case "memory" -> String.format(SUBPATH_MEM, host);
 			case "disk-usage" -> String.format(SUBPATH_DISK, host);

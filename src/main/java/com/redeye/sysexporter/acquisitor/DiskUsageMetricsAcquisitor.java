@@ -20,7 +20,7 @@ public class DiskUsageMetricsAcquisitor extends Acquisitor{
 
 	@Override
 	protected String getName() {
-		return "disk usage";
+		return "disk";
 	}
 
 	@Override
@@ -45,8 +45,6 @@ public class DiskUsageMetricsAcquisitor extends Acquisitor{
 		
 		// 메시지 객체 생성 및 반환(JSON)
 		Map<String, Object> diskMetricsMap = new HashMap<>();
-		
-		diskMetricsMap.put("type", "disk-usage");
 		diskMetricsMap.put("disk", diskUsageList);
 		
 		return diskMetricsMap;

@@ -41,7 +41,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return "network io";
+		return "network";
 	}
 
 	@Override
@@ -110,8 +110,6 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 		
 		// 5. 메시지 객체 생성 및 반환(JSON)
 		Map<String, Object> netIFMetricsMap = new HashMap<>();
-		
-		netIFMetricsMap.put("type", "network");
 		netIFMetricsMap.put("interface", netIFRateMetricsList);
 		
 		return netIFMetricsMap;

@@ -20,7 +20,7 @@ public class DiskUsageMetricsAcquisitor extends Acquisitor{
 
 	@Override
 	protected String getName() {
-		return "disk";
+		return "disk-usage";
 	}
 
 	@Override

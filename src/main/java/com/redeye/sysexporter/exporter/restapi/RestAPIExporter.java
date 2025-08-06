@@ -15,12 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 /**
- *
+ * Rest API Exporter
  *
  * @author jmsohn
  */
 @Slf4j
-@Component
+@Component("exporter")
 @ConditionalOnProperty
 (
 	value = "app.exporter.type",
@@ -80,9 +80,10 @@ public class RestAPIExporter extends Exporter {
 	}
 
 	/**
+	 * 메시지의 타입 별 subpath를 반환
 	 *
-	 *
-	 * @param messageJSON
+	 * @param messageJSON 발송할 메시지
+  	 * @return 타입 별 subpath
 	 */
 	private static String getSubpath(JSONObject messageJSON) throws Exception {
 		

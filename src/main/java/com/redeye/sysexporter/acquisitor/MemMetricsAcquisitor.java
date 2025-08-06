@@ -17,7 +17,7 @@ public class MemMetricsAcquisitor extends Acquisitor{
 	
 	@Override
 	protected String getName() {
-		return "memory usage";
+		return "memory";
 	}
 
 	@Override
@@ -28,7 +28,6 @@ public class MemMetricsAcquisitor extends Acquisitor{
 		
 		// 메시지 객체 생성 및 반환(JSON)
 		Map<String, Object> memMetrics = new HashMap<>();
-		memMetrics.put("type", "memory");
 		memMetrics.put("total", memory.getTotal());
 		memMetrics.put("free", memory.getAvailable());
 		

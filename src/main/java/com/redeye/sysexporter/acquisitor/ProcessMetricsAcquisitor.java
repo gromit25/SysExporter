@@ -22,13 +22,13 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return "process top 5";
+		return "process-top";
 	}
 
 	@Override
 	protected Map<String, Object> acquireMetrics() {
 
-		// 시스템 정보 획득
+		// 1. 시스템 정보 획득
 		OperatingSystem os = this.getSysInfo().getOperatingSystem();
 		CentralProcessor processor = this.getSysInfo().getHardware().getProcessor();
 
@@ -38,7 +38,7 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 		// CPU 사용률 기준으로 상위 5개 프로세스 목록 획득
 		List<OSProcess> top5ProcesseList = os.getProcesses(null, ProcessSorting.CPU_DESC, 5);
 
-		// Top 5 프로세스 성능 정보 목록
+		// 2. Top 5 프로세스 성능 정보 목록
 		List<Map<String, Object>> processMetricsList = new ArrayList<>();
 		
 		for(int index = 0; index < top5ProcesseList.size(); index++) {
@@ -59,10 +59,8 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 			processMetricsList.add(processMetrics);
 		}
 		
-		//
+		// 3. 메시지 객체 생성 및 반환
 		Map<String, Object> processMetricsMap = new HashMap<>();
-		
-		processMetricsMap.put("type", "process-top");
 		processMetricsMap.put("process", processMetricsList);
 
 		return processMetricsMap;

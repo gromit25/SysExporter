@@ -19,7 +19,7 @@ public class CPUMetricsAcquisitor extends Acquisitor {
 
 	@Override
 	protected String getName() {
-		return "cpu usage";
+		return "cpu";
 	}
 
 	@Override
@@ -55,7 +55,6 @@ public class CPUMetricsAcquisitor extends Acquisitor {
 		
 		// 5. 메시지 객체 생성 및 반환(JSON)
 		Map<String, Object> cpuMetricsMap = new HashMap<>();
-		cpuMetricsMap.put("type", "cpu");
 		cpuMetricsMap.put("usage", avgLoad);
 		
 		return cpuMetricsMap;

@@ -45,7 +45,7 @@ public class DiskUsageMetricsAcquisitor extends Acquisitor{
 		
 		// 메시지 객체 생성 및 반환(JSON)
 		Map<String, Object> diskMetricsMap = new HashMap<>();
-		diskMetricsMap.put("disk", diskUsageList);
+		diskMetricsMap.put("disks", diskUsageList);
 		
 		return diskMetricsMap;
 	}

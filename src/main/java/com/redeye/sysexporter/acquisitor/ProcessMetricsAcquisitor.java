@@ -61,7 +61,7 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 		
 		// 3. 메시지 객체 생성 및 반환
 		Map<String, Object> processMetricsMap = new HashMap<>();
-		processMetricsMap.put("process", processMetricsList);
+		processMetricsMap.put("processes", processMetricsList);
 
 		return processMetricsMap;
 	}

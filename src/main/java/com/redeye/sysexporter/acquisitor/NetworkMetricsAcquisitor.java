@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,11 @@ import oshi.hardware.NetworkIF;
  */
 @Slf4j
 @Component
+@ConditionalOnProperty
+(
+	value = "app.aquisitor.network-io",
+	havingValue = "y"
+)
 public class NetworkMetricsAcquisitor extends Acquisitor {
 	
 	/**
@@ -40,7 +46,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 		
 		// 1. 데이터 수집을 위한 준비
 		Map<String, NetIFTotalMetrics> preMetricsMap = new HashMap<>();
-		List<Map> netIFRateMetricsList = new ArrayList<>();
+		List<Map<String, Object>> netIFRateMetricsList = new ArrayList<>();
 		
 		List<NetworkIF> netIFList = this.getSysInfo().getHardware().getNetworkIFs();
 		

@@ -11,11 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.jutools.FileUtil;
 import com.redeye.sysexporter.acquisitor.AcquisitorManager;
-import com.redeye.sysexporter.acquisitor.CPUMetricsAcquisitor;
-import com.redeye.sysexporter.acquisitor.DiskUsageMetricsAcquisitor;
-import com.redeye.sysexporter.acquisitor.MemMetricsAcquisitor;
-import com.redeye.sysexporter.acquisitor.NetworkMetricsAcquisitor;
-import com.redeye.sysexporter.acquisitor.ProcessMetricsAcquisitor;
 import com.redeye.sysexporter.exporter.Exporter;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,27 +29,7 @@ public class SysExporterApplication implements CommandLineRunner {
 	@Value("${app.stop.file}")
 	private File stopFile;
 	
-	/** CPU 성능 수집기 */
-	@Autowired
-	private CPUMetricsAcquisitor cpuAcquisitor;
-	
-	/** 메모리 성능 수집기 */
-	@Autowired
-	private MemMetricsAcquisitor memAcquisitor;
-	
-	/** 네트워크 성는 수집기 */
-	@Autowired
-	private NetworkMetricsAcquisitor netAcquisitor;
-	
-	/** 디스크 사용량 성능 수집기 */
-	@Autowired
-	private DiskUsageMetricsAcquisitor diskUsageAcquisitor;
-	
-	/** 프로세스 성능 수집기 */
-	@Autowired
-	private ProcessMetricsAcquisitor procAcquisitor;
-
-	/** */
+	/** 시스템 성능 수집기 관리자 */
 	@Autowired
 	private AcquisitorManager acquisitorManager;
 	
@@ -94,24 +69,14 @@ public class SysExporterApplication implements CommandLineRunner {
 	 * 성능 정보 수집 시작
 	 */
 	private void startAcquisitor() throws Exception {
-		
-		this.cpuAcquisitor.run();
-		this.memAcquisitor.run();
-		this.diskUsageAcquisitor.run();
-		this.netAcquisitor.run();
-		this.procAcquisitor.run();
+		this.acquisitorManager.run();
 	}
 	
 	/**
 	 * 성능 정보 수집 중단
 	 */
 	private void stopAcquisitor() throws Exception {
-		
-		this.cpuAcquisitor.stop();
-		this.memAcquisitor.stop();
-		this.diskUsageAcquisitor.stop();
-		this.netAcquisitor.stop();
-		this.procAcquisitor.stop();
+		this.acquisitorManager.stop();
 	}
 
 	/**

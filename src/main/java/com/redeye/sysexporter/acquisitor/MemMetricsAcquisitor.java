@@ -3,6 +3,7 @@ package com.redeye.sysexporter.acquisitor;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import oshi.hardware.GlobalMemory;
@@ -13,6 +14,11 @@ import oshi.hardware.GlobalMemory;
  * @author jmsohn
  */
 @Component
+@ConditionalOnProperty
+(
+	value = "app.aquisitor.memory",
+	havingValue = "y"
+)
 public class MemMetricsAcquisitor extends Acquisitor{
 	
 	@Override

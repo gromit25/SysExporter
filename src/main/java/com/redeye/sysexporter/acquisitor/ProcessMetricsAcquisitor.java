@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import oshi.hardware.CentralProcessor;
@@ -18,6 +19,11 @@ import oshi.software.os.OperatingSystem.ProcessSorting;
  * @author jmsohn
  */
 @Component
+@ConditionalOnProperty
+(
+	value = "app.aquisitor.process-top",
+	havingValue = "y"
+)
 public class ProcessMetricsAcquisitor extends Acquisitor {
 	
 	@Override

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 /**
- *
+ * 시스템 성능 수집기 관리자
  *
  * @author jmsohn
  */
@@ -22,8 +22,6 @@ public class AcquisitorManager {
 	 */
 	public AcquisitorManager(List<Acquisitor> acquisitorList) {
 		this.acquisitorList = acquisitorList;
-
-		System.out.println("DEBUG 100:" + this.acquisitorList.size());
 	}
 
 	/**

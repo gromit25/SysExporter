@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import oshi.software.os.FileSystem;
@@ -16,6 +17,11 @@ import oshi.software.os.OSFileStore;
  * @author jmsohn
  */
 @Component
+@ConditionalOnProperty
+(
+	value = "app.aquisitor.disk-usage",
+	havingValue = "y"
+)
 public class DiskUsageMetricsAcquisitor extends Acquisitor{
 
 	@Override

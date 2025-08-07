@@ -3,6 +3,7 @@ package com.redeye.sysexporter.acquisitor;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,11 @@ import oshi.hardware.CentralProcessor;
  */
 @Slf4j
 @Component
+@ConditionalOnProperty
+(
+	value = "app.aquisitor.cpu",
+	havingValue = "y"
+)
 public class CPUMetricsAcquisitor extends Acquisitor {
 
 	@Override

@@ -28,16 +28,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 		long bytesRecv,
 		long bytesSent
 	){};
-	
-	/**
-	 * 네트워크 성능 데이터(비율, 최근 1초)
-	 */
-	record NetIFRateMetrics (
-		String name,
-		double recvRate,
-		double sentRate
-	){};
-	
+
 	
 	@Override
 	protected String getName() {
@@ -49,7 +40,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 		
 		// 1. 데이터 수집을 위한 준비
 		Map<String, NetIFTotalMetrics> preMetricsMap = new HashMap<>();
-		List<NetIFRateMetrics> netIFRateMetricsList = new ArrayList<>();
+		List<Map> netIFRateMetricsList = new ArrayList<>();
 		
 		List<NetworkIF> netIFList = this.getSysInfo().getHardware().getNetworkIFs();
 		
@@ -98,14 +89,15 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 			double divider = (netIF.getTimeStamp() - preMetrics.timestamp())/1000;
 			double recvRate = (netIF.getBytesRecv() - preMetrics.bytesRecv())/divider;
 			double sentRate = (netIF.getBytesSent() - preMetrics.bytesSent())/divider;
+
+			// 성능 정보 추가
+			Map<String, Object> ifMetrics = new HashMap<>();
 			
-			netIFRateMetricsList.add(
-				new NetIFRateMetrics(
-					netIF.getName(),
-					recvRate,
-					sentRate
-				)
-			);
+			ifMetrics.put("ifName", netIF.getName());
+			ifMetrics.put("sentRate", sentRate);
+			ifMetrics.put("recvRate", recvRate);
+			
+			netIFRateMetricsList.add(ifMetrics);
 		}
 		
 		// 5. 메시지 객체 생성 및 반환

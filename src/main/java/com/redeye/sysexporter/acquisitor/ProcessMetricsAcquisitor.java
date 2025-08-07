@@ -48,7 +48,7 @@ public class ProcessMetricsAcquisitor extends Acquisitor {
 			// 프로세스 성능 정보 생성 및 추가
 			Map<String, Object> processMetrics = new HashMap<>();
 
-			processMetrics.put("order", index);
+			processMetrics.put("ranking", index);
 			processMetrics.put("pid", process.getProcessID());
 			processMetrics.put("name", process.getName());
 			processMetrics.put("cpuUsage", 100 * (process.getProcessCpuLoadCumulative() / logicalCoreCount));

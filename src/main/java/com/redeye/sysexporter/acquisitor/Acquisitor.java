@@ -33,8 +33,12 @@ public abstract class Acquisitor {
 	/** 스프링부트 환경 변수 객체 */
 	@Autowired
 	private Environment environment;
-	
-	/** 리전 : host 구분자 */
+
+	/** 조직 : host 구분자 */
+	@Value("${app.organ}")
+	private String organ;
+
+	/** 영역 : host 구분자 */
 	@Value("${app.region}")
 	private String region;
 	

@@ -8,7 +8,9 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import com.jutools.StringUtil;
+import com.redeye.sysexporter.domain.HostVO;
 import com.redeye.sysexporter.exporter.Exporter;
+import com.redeye.sysexporter.util.Util;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,7 +56,7 @@ public class KafkaExporter extends Exporter {
 	 * @param message 전송할 메시지
 	 * @return 생성된 key
 	 */
-	private static String getKey(String message) {
+	private static String getKey(String message) throws Exception {
 		
 		JSONObject messageJSON = new JSONObject(message);
 

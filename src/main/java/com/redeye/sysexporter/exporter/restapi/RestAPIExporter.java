@@ -88,16 +88,16 @@ public class RestAPIExporter extends Exporter {
 	private static String getSubpath(JSONObject messageJSON) throws Exception {
 		
 		String type = messageJSON.getString("type");
-		String region = messageJSON.getString("region");
-		String host = messageJSON.getString("host");
+
+		HostVO host = Util.getHostInfo(messageJSON);
 		
 		return
 		switch(type) {
-			case "cpu" -> String.format(SUBPATH_CPU, region, host);
-			case "memory" -> String.format(SUBPATH_MEM, region, host);
-			case "disk-usage" -> String.format(SUBPATH_DISK, region, host);
-			case "network-io" -> String.format(SUBPATH_NETWORK, region, host);
-			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, region, host);
+			case "cpu" -> String.format(SUBPATH_CPU, messageJSON.getRegion(), messageJSON.getHost());
+			case "memory" -> String.format(SUBPATH_MEM, messageJSON.getRegion(), messageJSON.getHost());
+			case "disk-usage" -> String.format(SUBPATH_DISK, messageJSON.getRegion(), messageJSON.getHost());
+			case "network-io" -> String.format(SUBPATH_NETWORK, messageJSON.getRegion(), messageJSON.getHost());
+			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, messageJSON.getRegion(), messageJSON.getHost());
 			default -> throw new Exception("unknown type:" + type);
 		};
 	}

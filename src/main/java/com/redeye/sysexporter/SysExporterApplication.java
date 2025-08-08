@@ -53,43 +53,15 @@ public class SysExporterApplication implements CommandLineRunner {
 		
 		// 성능 수집기 시작
 		log.info("start sys-collector");
-		this.startExporter();
-		this.startAcquisitor();
+		this.exporter.run();
+		this.acquisitorManager.run();
 		
 		// 중단 파일이 touch 될때까지 대기
 		FileUtil.waitForFileTouched(this.stopFile);
 		
 		// 정보 수집 중단
 		log.info("stop sys-collector");
-		this.stopAcquisitor();;
-		this.stopExporter();
-	}
-	
-	/**
-	 * 성능 정보 수집 시작
-	 */
-	private void startAcquisitor() throws Exception {
-		this.acquisitorManager.run();
-	}
-	
-	/**
-	 * 성능 정보 수집 중단
-	 */
-	private void stopAcquisitor() throws Exception {
 		this.acquisitorManager.stop();
-	}
-
-	/**
-	 * 외부 출력기 시작
-	 */
-	private void startExporter() throws Exception {
-		this.exporter.run();
-	}
-
-	/**
-	 * 외부 출력기 중단
-	 */
-	private void stopExporter() throws Exception {
 		this.exporter.stop();
 	}
 }

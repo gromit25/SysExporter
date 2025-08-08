@@ -11,4 +11,15 @@ public record HostVO(
   String organ,
   String region,
   String host
-) {};
+) {
+  @Override
+  public String toString() {
+    return new StringBuilder()
+      .append(organ())
+      .append(":")
+      .append(region())
+      .append(":")
+      .append(host())
+      .toString();
+  }
+};

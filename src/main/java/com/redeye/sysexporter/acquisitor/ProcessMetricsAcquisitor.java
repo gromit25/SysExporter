@@ -21,7 +21,7 @@ import oshi.software.os.OperatingSystem.ProcessSorting;
 @Component
 @ConditionalOnProperty
 (
-	value = "app.aquisitor.process-top",
+	value = "app.acquisitor.process-top",
 	havingValue = "y"
 )
 public class ProcessMetricsAcquisitor extends Acquisitor {

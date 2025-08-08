@@ -11,4 +11,4 @@ public record HostVO(
   String organ,
   String region,
   String host
-);
+) {};

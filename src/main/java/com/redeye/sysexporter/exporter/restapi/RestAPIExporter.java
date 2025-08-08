@@ -29,19 +29,19 @@ import reactor.core.publisher.Mono;
 public class RestAPIExporter extends Exporter {
 
 	/** cpu 사용율 api subpath */
-	private static final String SUBPATH_CPU = "/host/%s/metrics/cpu";
+	private static final String SUBPATH_CPU = "/host/%s/%s/metrics/cpu";
 	
 	/** memory 사용율 api subpath */
-	private static final String SUBPATH_MEM = "/host/%s/metrics/memory";
+	private static final String SUBPATH_MEM = "/host/%s/%s/metrics/memory";
 	
 	/** disk 사용율 api subpath */
-	private static final String SUBPATH_DISK = "/host/%s/metrics/disk";
+	private static final String SUBPATH_DISK = "/host/%s/%s/metrics/disk";
 	
 	/** network io 사용율 api subpath */
-	private static final String SUBPATH_NETWORK = "/host/%s/metrics/network";
+	private static final String SUBPATH_NETWORK = "/host/%s/%s/metrics/network";
 	
 	/** process top 5 api subpath */
-	private static final String SUBPATH_PROCESS_TOP = "/host/%s/metrics/process/top";
+	private static final String SUBPATH_PROCESS_TOP = "/host/%s/%s/metrics/process/top";
 
 	/** rest api 연결 클라이언트 */
 	@Autowired
@@ -88,15 +88,16 @@ public class RestAPIExporter extends Exporter {
 	private static String getSubpath(JSONObject messageJSON) throws Exception {
 		
 		String type = messageJSON.getString("type");
+		String region = messageJSON.getString("region");
 		String host = messageJSON.getString("host");
 		
 		return
 		switch(type) {
-			case "cpu" -> String.format(SUBPATH_CPU, host);
-			case "memory" -> String.format(SUBPATH_MEM, host);
-			case "disk-usage" -> String.format(SUBPATH_DISK, host);
-			case "network-io" -> String.format(SUBPATH_NETWORK, host);
-			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, host);
+			case "cpu" -> String.format(SUBPATH_CPU, region, host);
+			case "memory" -> String.format(SUBPATH_MEM, region, host);
+			case "disk-usage" -> String.format(SUBPATH_DISK, region, host);
+			case "network-io" -> String.format(SUBPATH_NETWORK, region, host);
+			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, region, host);
 			default -> throw new Exception("unknown type:" + type);
 		};
 	}

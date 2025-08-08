@@ -93,11 +93,11 @@ public class RestAPIExporter extends Exporter {
 		
 		return
 		switch(type) {
-			case "cpu" -> String.format(SUBPATH_CPU, messageJSON.getRegion(), messageJSON.getHost());
-			case "memory" -> String.format(SUBPATH_MEM, messageJSON.getRegion(), messageJSON.getHost());
-			case "disk-usage" -> String.format(SUBPATH_DISK, messageJSON.getRegion(), messageJSON.getHost());
-			case "network-io" -> String.format(SUBPATH_NETWORK, messageJSON.getRegion(), messageJSON.getHost());
-			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, messageJSON.getRegion(), messageJSON.getHost());
+			case "cpu" -> String.format(SUBPATH_CPU, host.getRegion(), host.getHost());
+			case "memory" -> String.format(SUBPATH_MEM, host.getRegion(), host.getHost());
+			case "disk-usage" -> String.format(SUBPATH_DISK, host.getRegion(), host.getHost());
+			case "network-io" -> String.format(SUBPATH_NETWORK, host.getRegion(), host.getHost());
+			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, host.getRegion(), host.getHost());
 			default -> throw new Exception("unknown type:" + type);
 		};
 	}

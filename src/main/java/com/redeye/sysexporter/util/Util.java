@@ -12,21 +12,21 @@ import com.redeye.sysexporter.domain.HostVO;
 public class Util {
 
 	/**
-	 * 메시지 JSON 객체에서 호스트 정보 추출
+	 * 메시지 맵 객체에서 호스트 정보 추출
 	 *
-	 * @param messageJSON 메시지 JSON 객체
+	 * @param msgMap 메시지 맵 객체
 	 * @return 호스트 정보
 	 */
-	public static HostVO getHostInfo(JSONObject messageJSON) throws Exception {
+	public static HostVO getHostInfo(Map<String, Object> msgMap) throws Exception {
 
-		if(messageJSON == null) {
-			throw new IllegalArgumentException("messageJSON is null.");
+		if(msgMap == null) {
+			throw new IllegalArgumentException("msgMap is null.");
 		}
     
 		return new HostVO(
-			messageJSON.getString("organ"),
-			messageJSON.getString("region"),
-			messageJSON.getString("host")
+			msgMap.getString("organ"),
+			msgMap.getString("region"),
+			msgMap.getString("host")
 		);
 	}
 }

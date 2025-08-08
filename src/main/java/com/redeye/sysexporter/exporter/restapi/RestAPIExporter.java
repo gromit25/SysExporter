@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.jutools.StringUtil;
+import com.redeye.sysexporter.domain.HostVO;
 import com.redeye.sysexporter.exporter.Exporter;
+import com.redeye.sysexporter.util.Util;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -93,11 +95,11 @@ public class RestAPIExporter extends Exporter {
 		
 		return
 		switch(type) {
-			case "cpu" -> String.format(SUBPATH_CPU, host.getRegion(), host.getHost());
-			case "memory" -> String.format(SUBPATH_MEM, host.getRegion(), host.getHost());
-			case "disk-usage" -> String.format(SUBPATH_DISK, host.getRegion(), host.getHost());
-			case "network-io" -> String.format(SUBPATH_NETWORK, host.getRegion(), host.getHost());
-			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, host.getRegion(), host.getHost());
+			case "cpu" -> String.format(SUBPATH_CPU, host.region(), host.host());
+			case "memory" -> String.format(SUBPATH_MEM, host.region(), host.host());
+			case "disk-usage" -> String.format(SUBPATH_DISK, host.region(), host.host());
+			case "network-io" -> String.format(SUBPATH_NETWORK, host.region(), host.host());
+			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, host.region(), host.host());
 			default -> throw new Exception("unknown type:" + type);
 		};
 	}

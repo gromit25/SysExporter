@@ -16,7 +16,7 @@ import oshi.hardware.GlobalMemory;
 @Component
 @ConditionalOnProperty
 (
-	value = "app.aquisitor.memory",
+	value = "app.acquisitor.memory",
 	havingValue = "y"
 )
 public class MemMetricsAcquisitor extends Acquisitor{

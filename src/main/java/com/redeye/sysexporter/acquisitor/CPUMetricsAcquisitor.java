@@ -18,7 +18,7 @@ import oshi.hardware.CentralProcessor;
 @Component
 @ConditionalOnProperty
 (
-	value = "app.aquisitor.cpu",
+	value = "app.acquisitor.cpu",
 	havingValue = "y"
 )
 public class CPUMetricsAcquisitor extends Acquisitor {

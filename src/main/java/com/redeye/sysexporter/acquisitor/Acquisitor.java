@@ -14,6 +14,7 @@ import com.jutools.CronJob;
 import com.jutools.StringUtil;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +37,12 @@ public abstract class Acquisitor {
 
 	/** 조직 : host 구분자 */
 	@Value("${app.organ}")
-	@Pattern(regexp="^[a-zA-Z0-9_\-]{0, 200}$", message = "invalid organization name.")
+	@Pattern(regexp="^[a-zA-Z0-9_\\-]{0, 200}$", message = "invalid organization name.")
 	private String organ;
 
 	/** 영역 : host 구분자 */
 	@Value("${app.region}")
-	@Pattern(regexp="^[a-zA-Z0-9_\-]{0, 200}$", message = "invalid region name.")
+	@Pattern(regexp="^[a-zA-Z0-9_\\-]{0, 200}$", message = "invalid region name.")
 	private String region;
 	
 	/**

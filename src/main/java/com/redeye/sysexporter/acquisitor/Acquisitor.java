@@ -161,22 +161,24 @@ public abstract class Acquisitor {
 	/**
 	 * 수집 데이터 Map 객체를 JSON 문자열로 변환
 	 * 
-	 * @param msgObj 수집 데이터 Map 객체 
+	 * @param msgMap 수집 데이터 맵 객체 
 	 * @return 변환된 JSON 문자열
 	 */
-	protected String toJSON(Map<String, Object> msgObj) throws Exception {
+	protected String toJSON(Map<String, Object> msgMap) throws Exception {
 		
-		if(msgObj == null) {
-			throw new IllegalArgumentException("msgObj is null.");
+		if(msgMap == null) {
+			throw new IllegalArgumentException("msgMap is null.");
 		}
 
 		// 기준 시간 및 호스트 정보 추가
-		msgObj.put("timestamp", this.cronAcquisitor.getCurrentBaseTime());
-		msgObj.put("region", this.region);
-		msgObj.put("host", this.hostName);
-		msgObj.put("type", this.getName());
-		
-		return this.objMapper.writeValueAsString(msgObj);
+		msgMap.put("timestamp", this.cronAcquisitor.getCurrentBaseTime());
+		msgMap.put("type", this.getName());
+		msgMap.put("organ", this.organ);
+		msgMap.put("region", this.region);
+		msgMap.put("host", this.hostName);
+
+		// JSON 형태로 변환
+		return this.objMapper.writeValueAsString(msgMap);
 	}
 	
 	/**

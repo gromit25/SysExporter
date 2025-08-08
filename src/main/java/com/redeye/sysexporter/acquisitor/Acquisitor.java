@@ -135,14 +135,14 @@ public abstract class Acquisitor {
 					try {
 						
 						// 성능 데이터 수집
-						Map<String, Object> msgObj = acquireMetrics();
+						Map<String, Object> msgMap = acquireMetrics();
 						
 						// 수집된 성능 데이터를 큐로 전송
 						if(toExporterQueue != null) {
 							
-							if(msgObj != null) {
+							if(msgMap != null) {
 								
-								String message = toJSON(msgObj);
+								String message = toJSON(msgMap);
 								toExporterQueue.put(message);
 							}
 							

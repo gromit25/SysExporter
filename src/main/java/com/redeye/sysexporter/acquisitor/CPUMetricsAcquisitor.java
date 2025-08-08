@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
 
 import lombok.extern.slf4j.Slf4j;
 import oshi.hardware.CentralProcessor;
@@ -16,6 +17,7 @@ import oshi.hardware.CentralProcessor;
  */
 @Slf4j
 @Component
+@Validated
 @ConditionalOnProperty
 (
 	value = "app.acquisitor.cpu",

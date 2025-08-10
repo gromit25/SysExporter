@@ -24,7 +24,7 @@ import oshi.software.os.OperatingSystem.ProcessSorting;
 	value = "app.acquisitor.process-top",
 	havingValue = "y"
 )
-public class ProcessMetricsAcquisitor extends Acquisitor {
+public class ProcessTopMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {

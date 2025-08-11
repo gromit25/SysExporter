@@ -27,7 +27,7 @@ import oshi.software.os.OperatingSystem;
 (
 	value = "app.acquisitor.process.filter"
 )
-public class ProcessFilterAqcuisitor extends Acquisitor {
+public class ProcessFilterMetricsAqcuisitor extends Acquisitor {
 	
 	/** 패턴 설정 Set */
 	private Set<String> processPatternSet = ConcurrentHashMap.newKeySet();

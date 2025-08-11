@@ -18,7 +18,7 @@ import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
 
 /**
- * 
+ * 필터링된 프로세스 성능 정보 수집기
  * 
  * @author jmsohn
  */
@@ -29,11 +29,11 @@ import oshi.software.os.OperatingSystem;
 )
 public class ProcessFilterAqcuisitor extends Acquisitor {
 	
-	/** */
+	/** 패턴 설정 Set */
 	private Set<String> processPatternSet = ConcurrentHashMap.newKeySet();
 	
 	/**
-	 * 
+	 * 초기화
 	 */
 	@PostConstruct
 	public void initAcquisitor() throws Exception {
@@ -65,9 +65,9 @@ public class ProcessFilterAqcuisitor extends Acquisitor {
 		List<Map<String, Object>> processMetricsList = new ArrayList<>();
 
 		List<OSProcess> processList = os.getProcesses();
-		
 		for(OSProcess process: processList) {
-			
+
+			// 패턴에 매치될 경우 성능 정보 추가
 			if(this.isMatch(process) == true) {
 				
 				// 프로세스 성능 정보 생성 및 추가
@@ -92,18 +92,21 @@ public class ProcessFilterAqcuisitor extends Acquisitor {
 	}
 	
 	/**
+	 * 프로세스가 설정된 패턴에 일치하는지 여부 반환
 	 * 
-	 * 
-	 * @param p
-	 * @return
+	 * @param p 검사할 프로세스
+	 * @return 패턴 일치 여부
 	 */
 	private boolean isMatch(OSProcess p) throws Exception {
-		
+
+		// 프로세스 명
 		String processName = p.getName();
 		
-		for(String processPattern : this.processPatternSet) {
+		// 각 패턴 별로 매치 여부 검사 수행
+		for(String processPattern : processPatternSet) {
 			
 			String[] processPatternAry = StringUtil.splitFirst(processPattern, "[ \t]+");
+			
 			if(StringUtil.matchWildcard(processPatternAry[0], processName) == true) {
 				
 				// Argument에 대한 조건이 없는 경우에는 true를 반환
@@ -111,16 +114,8 @@ public class ProcessFilterAqcuisitor extends Acquisitor {
 					return true;
 				}
 				
-				// Argument 생성
-				StringBuilder args = new StringBuilder();
-				
-				List<String> argList = p.getArguments();
-				for(String arg: argList) {
-					args.append(" ").append(arg);
-				}
-				
-				//
-				if(StringUtil.matchWildcard(processPattern, args.toString()) == true) {
+				// Argument 매치 여부 확인
+				if(StringUtil.matchWildcard(processPatternAry[1], p.getCommandLine()) == true) {
 					return true;
 				}
 			}

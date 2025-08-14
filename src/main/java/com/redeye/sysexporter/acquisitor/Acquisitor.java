@@ -14,7 +14,6 @@ import com.jutools.CronJob;
 import com.jutools.StringUtil;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -37,12 +36,10 @@ public abstract class Acquisitor {
 
 	/** 조직 : host 구분자 */
 	@Value("${app.organ}")
-	@Pattern(regexp="^[a-zA-Z0-9_\\-]+$", message = "invalid organization name.")
 	private String organ;
 
 	/** 영역 : host 구분자 */
 	@Value("${app.region}")
-	@Pattern(regexp="^[a-zA-Z0-9_\\-]+$", message = "invalid region name.")
 	private String region;
 	
 	/**
@@ -90,8 +87,17 @@ public abstract class Acquisitor {
 	 * 컴포넌트 생성 후 초기화
 	 */
 	@PostConstruct
-	public void init() {
+	public void init() throws Exception {
+
+		if(this.organ.matches("^[a-zA-Z0-9_\\-]+$") == false) {
+			throw new Exception("invalid organ name.");
+		}
 		
+		if(this.region.matches("^[a-zA-Z0-9_\\-]+$") == false) {
+			throw new Exception("invalid region name.");
+		}
+		
+		// 호스트 명 설정
 		this.hostName = environment.getProperty("app.host");
 		
 		if(StringUtil.isBlank(this.hostName) == true) {

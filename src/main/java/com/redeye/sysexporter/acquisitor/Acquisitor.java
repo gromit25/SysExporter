@@ -39,8 +39,8 @@ public abstract class Acquisitor {
 	private String organ;
 
 	/** 영역 : host 구분자 */
-	@Value("${app.region}")
-	private String region;
+	@Value("${app.domain}")
+	private String domain;
 	
 	/**
 	 * 호스트 명<br>
@@ -90,11 +90,11 @@ public abstract class Acquisitor {
 	public void init() throws Exception {
 
 		if(this.organ.matches("^[a-zA-Z0-9_\\-]+$") == false) {
-			throw new Exception("invalid organ name.");
+			throw new Exception("invalid organ name: " + this.organ);
 		}
 		
-		if(this.region.matches("^[a-zA-Z0-9_\\-]+$") == false) {
-			throw new Exception("invalid region name.");
+		if(this.domain.matches("^[a-zA-Z0-9_\\-]+$") == false) {
+			throw new Exception("invalid domain name: " + this.domain);
 		}
 		
 		// 호스트 명 설정
@@ -183,7 +183,7 @@ public abstract class Acquisitor {
 		msgMap.put("timestamp", this.cronAcquisitor.getCurrentBaseTime());
 		msgMap.put("type", this.getName());
 		msgMap.put("organ", this.organ);
-		msgMap.put("region", this.region);
+		msgMap.put("domain", this.domain);
 		msgMap.put("host", this.hostName);
 
 		// JSON 형태로 변환

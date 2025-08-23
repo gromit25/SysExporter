@@ -95,11 +95,11 @@ public class RestAPIExporter extends Exporter {
 		
 		return
 		switch(type) {
-			case "cpu" -> String.format(SUBPATH_CPU, host.region(), host.host());
-			case "memory" -> String.format(SUBPATH_MEM, host.region(), host.host());
-			case "disk-usage" -> String.format(SUBPATH_DISK, host.region(), host.host());
-			case "network-io" -> String.format(SUBPATH_NETWORK, host.region(), host.host());
-			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, host.region(), host.host());
+			case "cpu" -> String.format(SUBPATH_CPU, host.domain(), host.host());
+			case "memory" -> String.format(SUBPATH_MEM, host.domain(), host.host());
+			case "disk-usage" -> String.format(SUBPATH_DISK, host.domain(), host.host());
+			case "network-io" -> String.format(SUBPATH_NETWORK, host.domain(), host.host());
+			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, host.domain(), host.host());
 			default -> throw new Exception("unknown type:" + type);
 		};
 	}

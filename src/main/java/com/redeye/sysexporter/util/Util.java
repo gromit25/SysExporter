@@ -25,7 +25,7 @@ public class Util {
     
 		return new HostVO(
 			messageJSON.getString("organ"),
-			messageJSON.getString("region"),
+			messageJSON.getString("domain"),
 			messageJSON.getString("host")
 		);
 	}

@@ -2,7 +2,7 @@ package com.redeye.sysexporter.util;
 
 import org.json.JSONObject;
 
-import com.redeye.sysexporter.domain.HostVO;
+import com.redeye.sysexporter.domain.HostTagVO;
 
 /**
  * Sys Exporter Util 클래스
@@ -14,19 +14,19 @@ public class Util {
 	/**
 	 * 메시지 JSON 객체에서 호스트 정보 추출
 	 *
-	 * @param messageJSON 메시지 JSON 객체
+	 * @param msgJSON 메시지 JSON 객체
 	 * @return 호스트 정보
 	 */
-	public static HostVO getHostInfo(JSONObject messageJSON) throws Exception {
+	public static HostTagVO getHostInfo(JSONObject msgJSON) throws Exception {
 
-		if(messageJSON == null) {
+		if(msgJSON == null) {
 			throw new IllegalArgumentException("messageJSON is null.");
 		}
     
-		return new HostVO(
-			messageJSON.getString("organ"),
-			messageJSON.getString("domain"),
-			messageJSON.getString("host")
+		return new HostTagVO(
+			msgJSON.getString("organCode"),
+			msgJSON.getString("domainCode"),
+			msgJSON.getString("hostName")
 		);
 	}
 }

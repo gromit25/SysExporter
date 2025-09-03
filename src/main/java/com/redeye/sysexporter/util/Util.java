@@ -20,7 +20,11 @@ public class Util {
 	public static HostTagVO getHostInfo(JSONObject msgJSON) throws Exception {
 
 		if(msgJSON == null) {
+<<<<<<< HEAD
 			throw new IllegalArgumentException("msgJSON is null.");
+=======
+			throw new IllegalArgumentException("messageJSON is null.");
+>>>>>>> branch 'main' of https://github.com/gromit25/SysExporter.git
 		}
     
 		return new HostTagVO(

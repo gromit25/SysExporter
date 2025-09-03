@@ -25,9 +25,9 @@ import oshi.software.os.OperatingSystem;
 @Component
 @ConditionalOnProperty
 (
-	value = "app.acquisitor.process.filter"
+	value = "app.acquisitor.process.target"
 )
-public class ProcessFilterMetricsAqcuisitor extends Acquisitor {
+public class TargetProcessMetricsAqcuisitor extends Acquisitor {
 	
 	/** 패턴 설정 Set */
 	private Set<String> processPatternSet = ConcurrentHashMap.newKeySet();
@@ -48,7 +48,7 @@ public class ProcessFilterMetricsAqcuisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return "process-filter";
+		return "target-process";
 	}
 
 	@Override

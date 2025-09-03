@@ -35,12 +35,12 @@ public abstract class Acquisitor {
 	private Environment environment;
 
 	/** 조직 : host 구분자 */
-	@Value("${app.organ}")
-	private String organ;
+	@Value("${app.organ.code}")
+	private String organCode;
 
 	/** 영역 : host 구분자 */
-	@Value("${app.domain}")
-	private String domain;
+	@Value("${app.domain.code}")
+	private String domainCode;
 	
 	/**
 	 * 호스트 명<br>
@@ -89,16 +89,16 @@ public abstract class Acquisitor {
 	@PostConstruct
 	public void init() throws Exception {
 
-		if(this.organ.matches("^[a-zA-Z0-9_\\-]+$") == false) {
-			throw new Exception("invalid organ name: " + this.organ);
+		if(this.organCode.matches("^[a-zA-Z0-9_\\-]+$") == false) {
+			throw new Exception("invalid organ name: " + this.organCode);
 		}
 		
-		if(this.domain.matches("^[a-zA-Z0-9_\\-]+$") == false) {
-			throw new Exception("invalid domain name: " + this.domain);
+		if(this.domainCode.matches("^[a-zA-Z0-9_\\-]+$") == false) {
+			throw new Exception("invalid domain name: " + this.domainCode);
 		}
 		
 		// 호스트 명 설정
-		this.hostName = environment.getProperty("app.host");
+		this.hostName = environment.getProperty("app.host.name");
 		
 		if(StringUtil.isBlank(this.hostName) == true) {
 			
@@ -182,9 +182,9 @@ public abstract class Acquisitor {
 		// 기준 시간 및 호스트 정보 추가
 		msgMap.put("timestamp", this.cronAcquisitor.getCurrentBaseTime());
 		msgMap.put("type", this.getName());
-		msgMap.put("organ", this.organ);
-		msgMap.put("domain", this.domain);
-		msgMap.put("host", this.hostName);
+		msgMap.put("organCode", this.organCode);
+		msgMap.put("domainCode", this.domainCode);
+		msgMap.put("hostName", this.hostName);
 
 		// JSON 형태로 변환
 		return this.objMapper.writeValueAsString(msgMap);

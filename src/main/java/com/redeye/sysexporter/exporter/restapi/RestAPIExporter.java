@@ -42,8 +42,12 @@ public class RestAPIExporter extends Exporter {
 	/** network io 사용율 api subpath */
 	private static final String SUBPATH_NETWORK = "/host/%s/%s/metrics/network";
 	
-	/** process top 5 api subpath */
+	/** process top api subpath */
 	private static final String SUBPATH_PROCESS_TOP = "/host/%s/%s/metrics/process/top";
+
+	/** target process api subpath */
+	private static final String SUBPATH_TARGET_PROCESS = "/host/%s/%s/metrics/process/target";
+
 
 	/** rest api 연결 클라이언트 */
 	@Autowired
@@ -84,16 +88,21 @@ public class RestAPIExporter extends Exporter {
 	/**
 	 * 메시지의 타입 별 subpath를 반환
 	 *
-	 * @param messageJSON 발송할 메시지
+	 * @param msgJSON 발송할 메시지
   	 * @return 타입 별 subpath
 	 */
-	private static String getSubpath(JSONObject messageJSON) throws Exception {
+	private static String getSubpath(JSONObject msgJSON) throws Exception {
 		
-		String type = messageJSON.getString("type");
+		String type = msgJSON.getString("type");
 
+<<<<<<< HEAD
 		HostTagVO hostTag = Util.getHostInfo(messageJSON);
+=======
+		HostTagVO hostTag = Util.getHostInfo(msgJSON);
+>>>>>>> branch 'main' of https://github.com/gromit25/SysExporter.git
 		
 		switch(type) {
+<<<<<<< HEAD
 			case "cpu":
 				return String.format(SUBPATH_CPU, hostTag.getDomainCode(), hostTag.getHostName());
 			case "memory":
@@ -107,5 +116,15 @@ public class RestAPIExporter extends Exporter {
 			default:
 				throw new Exception("unknown type:" + type);
 		}
+=======
+			case "cpu" -> String.format(SUBPATH_CPU, hostTag.domainCode(), hostTag.hostName());
+			case "memory" -> String.format(SUBPATH_MEM, hostTag.domainCode(), hostTag.hostName());
+			case "disk-usage" -> String.format(SUBPATH_DISK, hostTag.domainCode(), hostTag.hostName());
+			case "network-io" -> String.format(SUBPATH_NETWORK, hostTag.domainCode(), hostTag.hostName());
+			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, hostTag.domainCode(), hostTag.hostName());
+			case "target-process" -> String.format(SUBPATH_TARGET_PROCESS, hostTag.domainCode(), hostTag.hostName());
+			default -> throw new Exception("unknown type:" + type);
+		};
+>>>>>>> branch 'main' of https://github.com/gromit25/SysExporter.git
 	}
 }

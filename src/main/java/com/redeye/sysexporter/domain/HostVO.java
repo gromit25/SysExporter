@@ -1,25 +1,25 @@
 package com.redeye.sysexporter.domain;
 
 /**
- * 호스트 정보 Value Object
+ * 호스트 테그 정보 Value Object
  *
- * @param organ 조직명
- * @param domain 영역
+ * @param organCode 조직 코드
+ * @param domainCode 도메인 코드
  * @param host 호스트명
  */
-public record HostVO(
-  String organ,
-  String domain,
-  String host
+public record HostTagVO(
+  String organCode,
+  String domainCode,
+  String hostName
 ) {
   @Override
   public String toString() {
     return new StringBuilder()
-      .append(organ())
+      .append(organCode())
       .append(":")
-      .append(domain())
+      .append(domainCode())
       .append(":")
-      .append(host())
+      .append(hostName())
       .toString();
   }
 };

@@ -91,16 +91,21 @@ public class RestAPIExporter extends Exporter {
 		
 		String type = messageJSON.getString("type");
 
-		HostVO host = Util.getHostInfo(messageJSON);
+		HostVO hostTag = Util.getHostInfo(messageJSON);
 		
-		return
 		switch(type) {
-			case "cpu" -> String.format(SUBPATH_CPU, host.domain(), host.host());
-			case "memory" -> String.format(SUBPATH_MEM, host.domain(), host.host());
-			case "disk-usage" -> String.format(SUBPATH_DISK, host.domain(), host.host());
-			case "network-io" -> String.format(SUBPATH_NETWORK, host.domain(), host.host());
-			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, host.domain(), host.host());
-			default -> throw new Exception("unknown type:" + type);
-		};
+			case "cpu":
+				return String.format(SUBPATH_CPU, hostTag.getDomainCode(), hostTag.getHostName());
+			case "memory":
+				return String.format(SUBPATH_MEM, hostTag.getDomainCode(), hostTag.getHostName());
+			case "disk-usage":
+				return String.format(SUBPATH_DISK, hostTag.getDomainCode(), hostTag.getHostName());
+			case "network-io":
+				return String.format(SUBPATH_NETWORK, hostTag.getDomainCode(), hostTag.getHostName());
+			case "process-top":
+				return String.format(SUBPATH_PROCESS_TOP, hostTag.getDomainCode(), hostTag.getHostName());
+			default:
+				throw new Exception("unknown type:" + type);
+		}
 	}
 }

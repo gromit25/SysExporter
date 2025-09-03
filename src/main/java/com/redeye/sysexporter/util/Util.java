@@ -14,19 +14,19 @@ public class Util {
 	/**
 	 * 메시지 JSON 객체에서 호스트 정보 추출
 	 *
-	 * @param messageJSON 메시지 JSON 객체
+	 * @param msgJSON 메시지 JSON 객체
 	 * @return 호스트 정보
 	 */
-	public static HostVO getHostInfo(JSONObject messageJSON) throws Exception {
+	public static HostVO getHostInfo(JSONObject msgJSON) throws Exception {
 
-		if(messageJSON == null) {
-			throw new IllegalArgumentException("messageJSON is null.");
+		if(msgJSON == null) {
+			throw new IllegalArgumentException("msgJSON is null.");
 		}
     
 		return new HostVO(
-			messageJSON.getString("organ"),
-			messageJSON.getString("domain"),
-			messageJSON.getString("host")
+			msgJSON.getString("organCode"),
+			msgJSON.getString("domainCode"),
+			msgJSON.getString("hostName")
 		);
 	}
 }

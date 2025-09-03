@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import oshi.hardware.NetworkIF;
 
@@ -28,12 +29,42 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 	/**
 	 * 네트워크 성능 데이터(누적)
 	 */
-	record NetIFTotalMetrics (
-		long timestamp,
-		String networkIFName,
-		long bytesRecv,
-		long bytesSent
-	){};
+	@Data
+	class NetIFTotalMetrics {
+		
+		/** */
+		private long timestamp;
+		
+		/** */
+		private String networkIFName;
+		
+		/** */
+		private long bytesRecv;
+		
+		/** */
+		private long bytesSent;
+		
+		
+		/**
+		 * 
+		 * 
+		 * @param timestamp
+		 * @param networkIFName
+		 * @param bytesRecv
+		 * @param bytesSent
+		 */
+		public NetIFTotalMetrics(
+			long timestamp,
+			String networkIFName,
+			long bytesRecv,
+			long bytesSent
+		) {
+			this.timestamp = timestamp;
+			this.networkIFName = networkIFName;
+			this.bytesRecv = bytesRecv;
+			this.bytesSent = bytesSent;
+		}
+	};
 
 	
 	@Override
@@ -92,9 +123,9 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 			}
 			
 			// read/write 초당 byte 수 계산
-			double divider = (netIF.getTimeStamp() - preMetrics.timestamp())/1000;
-			double recvRate = (netIF.getBytesRecv() - preMetrics.bytesRecv())/divider;
-			double sentRate = (netIF.getBytesSent() - preMetrics.bytesSent())/divider;
+			double divider = (netIF.getTimeStamp() - preMetrics.getTimestamp())/1000;
+			double recvRate = (netIF.getBytesRecv() - preMetrics.getBytesRecv())/divider;
+			double sentRate = (netIF.getBytesSent() - preMetrics.getBytesSent())/divider;
 
 			// 성능 정보 추가
 			Map<String, Object> ifMetrics = new HashMap<>();

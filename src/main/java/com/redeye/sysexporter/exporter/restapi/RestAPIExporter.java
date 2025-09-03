@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.jutools.StringUtil;
-import com.redeye.sysexporter.domain.HostVO;
+import com.redeye.sysexporter.domain.HostTagVO;
 import com.redeye.sysexporter.exporter.Exporter;
 import com.redeye.sysexporter.util.Util;
 
@@ -91,7 +91,7 @@ public class RestAPIExporter extends Exporter {
 		
 		String type = messageJSON.getString("type");
 
-		HostVO hostTag = Util.getHostInfo(messageJSON);
+		HostTagVO hostTag = Util.getHostInfo(messageJSON);
 		
 		switch(type) {
 			case "cpu":

@@ -8,7 +8,7 @@ import lombok.Data;
  * @author jmsohn
  */
 @Data
-public class HostVO {
+public class HostTagVO {
 	
 	/** 기관 코드 */
 	private String organCode;
@@ -26,7 +26,7 @@ public class HostVO {
 	 * @param domainCode 도메인 코드
 	 * @param hostName 호스트 명
 	 */
-	public HostVO(
+	public HostTagVO(
 		String organCode,
 		String domainCode,
 		String hostName

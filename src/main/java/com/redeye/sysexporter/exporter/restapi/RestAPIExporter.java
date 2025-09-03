@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.jutools.StringUtil;
-import com.redeye.sysexporter.domain.HostVO;
+import com.redeye.sysexporter.domain.HostTagVO;
 import com.redeye.sysexporter.exporter.Exporter;
 import com.redeye.sysexporter.util.Util;
 
@@ -91,15 +91,15 @@ public class RestAPIExporter extends Exporter {
 		
 		String type = messageJSON.getString("type");
 
-		HostVO host = Util.getHostInfo(messageJSON);
+		HostTagVO hostTag = Util.getHostInfo(messageJSON);
 		
 		return
 		switch(type) {
-			case "cpu" -> String.format(SUBPATH_CPU, host.domain(), host.host());
-			case "memory" -> String.format(SUBPATH_MEM, host.domain(), host.host());
-			case "disk-usage" -> String.format(SUBPATH_DISK, host.domain(), host.host());
-			case "network-io" -> String.format(SUBPATH_NETWORK, host.domain(), host.host());
-			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, host.domain(), host.host());
+			case "cpu" -> String.format(SUBPATH_CPU, hostTag.domainCode(), hostTag.hostName());
+			case "memory" -> String.format(SUBPATH_MEM, hostTag.domainCode(), hostTag.hostName());
+			case "disk-usage" -> String.format(SUBPATH_DISK, hostTag.domainCode(), hostTag.hostName());
+			case "network-io" -> String.format(SUBPATH_NETWORK, hostTag.domainCode(), hostTag.hostName());
+			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, hostTag.domainCode(), hostTag.hostName());
 			default -> throw new Exception("unknown type:" + type);
 		};
 	}

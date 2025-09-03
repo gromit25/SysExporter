@@ -84,14 +84,14 @@ public class RestAPIExporter extends Exporter {
 	/**
 	 * 메시지의 타입 별 subpath를 반환
 	 *
-	 * @param messageJSON 발송할 메시지
+	 * @param msgJSON 발송할 메시지
   	 * @return 타입 별 subpath
 	 */
-	private static String getSubpath(JSONObject messageJSON) throws Exception {
+	private static String getSubpath(JSONObject msgJSON) throws Exception {
 		
-		String type = messageJSON.getString("type");
+		String type = msgJSON.getString("type");
 
-		HostTagVO hostTag = Util.getHostInfo(messageJSON);
+		HostTagVO hostTag = Util.getHostInfo(msgJSON);
 		
 		return
 		switch(type) {

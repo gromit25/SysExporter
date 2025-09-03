@@ -28,7 +28,7 @@ public class RestAPIExporterConfig {
   	 * @return 생성된 WebClient 객체
 	 */
 	@Bean("webClient")
-	public WebClient webClient(
+	WebClient webClient(
 		@Value("app.exporter.restapi.url") String url
 	) {
 		return WebClient.builder()

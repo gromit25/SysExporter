@@ -42,8 +42,12 @@ public class RestAPIExporter extends Exporter {
 	/** network io 사용율 api subpath */
 	private static final String SUBPATH_NETWORK = "/host/%s/%s/metrics/network";
 	
-	/** process top 5 api subpath */
+	/** process top api subpath */
 	private static final String SUBPATH_PROCESS_TOP = "/host/%s/%s/metrics/process/top";
+
+	/** target process api subpath */
+	private static final String SUBPATH_TARGET_PROCESS = "/host/%s/%s/metrics/process/target";
+
 
 	/** rest api 연결 클라이언트 */
 	@Autowired
@@ -100,6 +104,7 @@ public class RestAPIExporter extends Exporter {
 			case "disk-usage" -> String.format(SUBPATH_DISK, hostTag.domainCode(), hostTag.hostName());
 			case "network-io" -> String.format(SUBPATH_NETWORK, hostTag.domainCode(), hostTag.hostName());
 			case "process-top" -> String.format(SUBPATH_PROCESS_TOP, hostTag.domainCode(), hostTag.hostName());
+			case "target-process" -> String.format(SUBPATH_TARGET_PROCESS, hostTag.domainCode(), hostTag.hostName());
 			default -> throw new Exception("unknown type:" + type);
 		};
 	}

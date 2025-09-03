@@ -8,7 +8,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import com.jutools.StringUtil;
-import com.redeye.sysexporter.domain.HostVO;
+import com.redeye.sysexporter.domain.HostTagVO;
 import com.redeye.sysexporter.exporter.Exporter;
 import com.redeye.sysexporter.util.Util;
 
@@ -60,7 +60,7 @@ public class KafkaExporter extends Exporter {
 		
 		JSONObject messageJSON = new JSONObject(message);
 
-		HostVO host = Util.getHostInfo(messageJSON);
+		HostTagVO host = Util.getHostInfo(messageJSON);
 
 		// sys-exporter:host:type
 		return new StringBuilder()

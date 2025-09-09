@@ -17,7 +17,7 @@ public class Util {
 	 * @param msgJSON 메시지 JSON 객체
 	 * @return 호스트 정보
 	 */
-	public static HostTagVO getHostInfo(JSONObject msgJSON) throws Exception {
+	public static HostTagVO getHostTag(JSONObject msgJSON) throws Exception {
 
 		if(msgJSON == null) {
 			throw new IllegalArgumentException("msgJSON is null.");

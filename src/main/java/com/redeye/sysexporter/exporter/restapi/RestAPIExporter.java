@@ -30,24 +30,8 @@ import reactor.core.publisher.Mono;
 )
 public class RestAPIExporter extends Exporter {
 
-	/** cpu 사용율 api subpath */
-	private static final String SUBPATH_CPU = "/host/%s/%s/metrics/cpu";
-	
-	/** memory 사용율 api subpath */
-	private static final String SUBPATH_MEM = "/host/%s/%s/metrics/memory";
-	
-	/** disk 사용율 api subpath */
-	private static final String SUBPATH_DISK = "/host/%s/%s/metrics/disk";
-	
-	/** network io 사용율 api subpath */
-	private static final String SUBPATH_NETWORK = "/host/%s/%s/metrics/network";
-	
-	/** process top api subpath */
-	private static final String SUBPATH_PROCESS_TOP = "/host/%s/%s/metrics/process/top";
-
-	/** target process api subpath */
-	private static final String SUBPATH_TARGET_PROCESS = "/host/%s/%s/metrics/process/target";
-
+	/** RestAPI Subpath */
+	private static final String SUBPATH = "/api/sysmetrics/%s/%s/%s";
 
 	/** rest api 연결 클라이언트 */
 	@Autowired
@@ -94,24 +78,8 @@ public class RestAPIExporter extends Exporter {
 	private static String getSubpath(JSONObject msgJSON) throws Exception {
 		
 		String type = msgJSON.getString("type");
-
 		HostTagVO hostTag = Util.getHostInfo(msgJSON);
-		
-		switch(type) {
-			case "cpu":
-				return String.format(SUBPATH_CPU, hostTag.getDomainCode(), hostTag.getHostName());
-			case "memory":
-				return String.format(SUBPATH_MEM, hostTag.getDomainCode(), hostTag.getHostName());
-			case "disk-usage":
-				return String.format(SUBPATH_DISK, hostTag.getDomainCode(), hostTag.getHostName());
-			case "network-io":
-				return String.format(SUBPATH_NETWORK, hostTag.getDomainCode(), hostTag.getHostName());
-			case "process-top":
-				return String.format(SUBPATH_PROCESS_TOP, hostTag.getDomainCode(), hostTag.getHostName());
-			case "process-target":
-				return String.format(SUBPATH_TARGET_PROCESS, hostTag.getDomainCode(), hostTag.getHostName());
-			default:
-				throw new Exception("unknown type:" + type);
-		}
+
+		return String.format(SUBPATH, hostTage.getOrganCode(), hostTag.getDomainCode(), hostTag.getHostName());
 	}
 }

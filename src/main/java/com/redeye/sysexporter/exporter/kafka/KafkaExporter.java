@@ -60,7 +60,7 @@ public class KafkaExporter extends Exporter {
 		
 		JSONObject messageJSON = new JSONObject(message);
 
-		HostTagVO hostTag = Util.getHostInfo(messageJSON);
+		HostTagVO hostTag = Util.getHostTag(messageJSON);
 
 		// sys-exporter:host:type
 		return new StringBuilder()

@@ -78,8 +78,8 @@ public class RestAPIExporter extends Exporter {
 	private static String getSubpath(JSONObject msgJSON) throws Exception {
 		
 		String type = msgJSON.getString("type");
-		HostTagVO hostTag = Util.getHostInfo(msgJSON);
+		HostTagVO hostTag = Util.getHostTag(msgJSON);
 
-		return String.format(SUBPATH, hostTage.getOrganCode(), hostTag.getDomainCode(), hostTag.getHostName());
+		return String.format(SUBPATH, hostTag.getOrganCode(), hostTag.getDomainCode(), hostTag.getHostName());
 	}
 }

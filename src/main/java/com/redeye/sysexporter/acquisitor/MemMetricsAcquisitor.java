@@ -23,7 +23,7 @@ public class MemMetricsAcquisitor extends Acquisitor{
 	
 	@Override
 	protected String getName() {
-		return MEMORY;
+		return Constants.MEMORY;
 	}
 
 	@Override

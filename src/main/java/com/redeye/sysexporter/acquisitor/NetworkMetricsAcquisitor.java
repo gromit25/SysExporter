@@ -69,7 +69,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return "network-io";
+		return Constants.NETWORK;
 	}
 
 	@Override

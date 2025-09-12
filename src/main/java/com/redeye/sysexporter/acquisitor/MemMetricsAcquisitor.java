@@ -16,14 +16,14 @@ import oshi.hardware.GlobalMemory;
 @Component
 @ConditionalOnProperty
 (
-	value = "app.acquisitor.memory.usage",
+	value = "app.acquisitor.memory",
 	havingValue = "y"
 )
 public class MemMetricsAcquisitor extends Acquisitor{
 	
 	@Override
 	protected String getName() {
-		return "memory";
+		return MEMORY;
 	}
 
 	@Override

@@ -49,7 +49,7 @@ public class TargetProcessMetricsAqcuisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return Constants.TARGET_PROCESS;
+		return MetricsType.TARGET_PROCESS;
 	}
 
 	@Override

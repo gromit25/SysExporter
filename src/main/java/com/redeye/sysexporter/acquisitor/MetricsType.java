@@ -1,6 +1,6 @@
 package com.redeye.sysexporter.acquisitor;
 
-public class Constants {
+public class MetricsType {
 
 	public static final String CPU = "cpu";
 	public static final String MEMORY = "memory";

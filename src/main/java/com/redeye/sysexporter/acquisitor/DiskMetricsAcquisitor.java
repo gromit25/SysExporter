@@ -22,11 +22,11 @@ import oshi.software.os.OSFileStore;
 	value = "app.acquisitor.disk.usage",
 	havingValue = "y"
 )
-public class DiskUsageMetricsAcquisitor extends Acquisitor{
+public class DiskMetricsAcquisitor extends Acquisitor{
 
 	@Override
 	protected String getName() {
-		return "disk-usage";
+		return DISK;
 	}
 
 	@Override

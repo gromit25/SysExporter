@@ -19,7 +19,7 @@ import oshi.software.os.OSFileStore;
 @Component
 @ConditionalOnProperty
 (
-	value = "app.acquisitor.disk.usage",
+	value = "app.acquisitor.disk",
 	havingValue = "y"
 )
 public class DiskMetricsAcquisitor extends Acquisitor{

@@ -27,7 +27,7 @@ public class CPUMetricsAcquisitor extends Acquisitor {
 
 	@Override
 	protected String getName() {
-		return CPU;
+		return Constants.CPU;
 	}
 
 	@Override

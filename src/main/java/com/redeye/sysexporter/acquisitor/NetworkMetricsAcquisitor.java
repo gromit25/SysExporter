@@ -21,7 +21,7 @@ import oshi.hardware.NetworkIF;
 @Component
 @ConditionalOnProperty
 (
-	value = "app.acquisitor.network.io",
+	value = "app.acquisitor.network",
 	havingValue = "y"
 )
 public class NetworkMetricsAcquisitor extends Acquisitor {

@@ -28,7 +28,7 @@ import oshi.software.os.OperatingSystem.ProcessSorting;
 public class TopProcessMetricsAcquisitor extends Acquisitor {
 	
 	/** top 개수 */
-	@Value("${app.acquisitor.process.top}")
+	@Value("${app.acquisitor.process.top.count}")
 	private int top;
 	
 	@Override

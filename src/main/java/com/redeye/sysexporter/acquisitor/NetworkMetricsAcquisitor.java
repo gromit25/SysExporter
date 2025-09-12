@@ -69,7 +69,7 @@ public class NetworkMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return MetricsType.NETWORK;
+		return MetricsType.NETWORK.getTypeName();
 	}
 
 	@Override

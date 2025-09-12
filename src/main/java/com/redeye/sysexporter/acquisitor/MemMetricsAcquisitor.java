@@ -23,7 +23,7 @@ public class MemMetricsAcquisitor extends Acquisitor{
 	
 	@Override
 	protected String getName() {
-		return MetricsType.MEMORY;
+		return MetricsType.MEMORY.getTypeName();
 	}
 
 	@Override

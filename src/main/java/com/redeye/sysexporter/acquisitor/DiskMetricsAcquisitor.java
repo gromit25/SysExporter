@@ -26,7 +26,7 @@ public class DiskMetricsAcquisitor extends Acquisitor{
 
 	@Override
 	protected String getName() {
-		return MetricsType.DISK;
+		return MetricsType.DISK.getTypeName();
 	}
 
 	@Override

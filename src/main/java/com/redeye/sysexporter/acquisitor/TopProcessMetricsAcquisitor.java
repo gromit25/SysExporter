@@ -33,7 +33,7 @@ public class TopProcessMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return MetricsType.TOP_PROCESS;
+		return MetricsType.TOP_PROCESS.getTypeName();
 	}
 
 	@Override
@@ -47,7 +47,11 @@ public class TopProcessMetricsAcquisitor extends Acquisitor {
 		int logicalCoreCount = processor.getLogicalProcessorCount();
 	
 		// CPU 사용률 기준으로 상위 프로세스 목록 획득
-		List<OSProcess> topProcessList = os.getProcesses(null, ProcessSorting.CPU_DESC, this.top);
+		List<OSProcess> topProcessList = os.getProcesses(
+			null, // 필터링 하지 않음
+			ProcessSorting.CPU_DESC, // CPU 사용율 내림 차순
+			this.top // CPU 사용율 등수 한계
+		);
 
 		// 2. Top 프로세스 성능 정보 목록
 		List<Map<String, Object>> processMetricsList = new ArrayList<>();

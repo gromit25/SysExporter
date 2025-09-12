@@ -22,9 +22,10 @@ import oshi.software.os.OperatingSystem.ProcessSorting;
 @Component
 @ConditionalOnProperty
 (
-	value = "app.acquisitor.process.top"
+	value = "app.acquisitor.process.top",
+	havingValue = "y"
 )
-public class ProcessTopMetricsAcquisitor extends Acquisitor {
+public class TopProcessMetricsAcquisitor extends Acquisitor {
 	
 	/** top 개수 */
 	@Value("${app.acquisitor.process.top}")
@@ -32,7 +33,7 @@ public class ProcessTopMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return "process-top";
+		return TOP_PROCESS;
 	}
 
 	@Override

@@ -20,7 +20,7 @@ import oshi.hardware.CentralProcessor;
 @Validated
 @ConditionalOnProperty
 (
-	value = "app.acquisitor.cpu.usage",
+	value = "app.acquisitor.cpu",
 	havingValue = "y"
 )
 public class CPUMetricsAcquisitor extends Acquisitor {

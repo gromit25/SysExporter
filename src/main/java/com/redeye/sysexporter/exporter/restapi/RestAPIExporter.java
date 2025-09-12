@@ -31,7 +31,7 @@ import reactor.core.publisher.Mono;
 public class RestAPIExporter extends Exporter {
 
 	/** RestAPI Subpath */
-	private static final String SUBPATH = "/api/sysmetrics/%s/%s/%s";
+	private static final String SUBPATH = "/api/sysmetrics/%s/%s/%s/%s";
 
 	/** rest api 연결 클라이언트 */
 	@Autowired
@@ -80,6 +80,6 @@ public class RestAPIExporter extends Exporter {
 		String type = msgJSON.getString("type");
 		HostTagVO hostTag = Util.getHostTag(msgJSON);
 
-		return String.format(SUBPATH, hostTag.getOrganCode(), hostTag.getDomainCode(), hostTag.getHostName());
+		return String.format(SUBPATH, hostTag.getOrganCode(), hostTag.getDomainCode(), hostTag.getHostName(), type);
 	}
 }

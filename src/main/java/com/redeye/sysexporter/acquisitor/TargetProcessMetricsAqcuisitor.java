@@ -25,7 +25,8 @@ import oshi.software.os.OperatingSystem;
 @Component
 @ConditionalOnProperty
 (
-	value = "app.acquisitor.process.target"
+	value = "app.acquisitor.process.target",
+	havingValue = "y"
 )
 public class TargetProcessMetricsAqcuisitor extends Acquisitor {
 	

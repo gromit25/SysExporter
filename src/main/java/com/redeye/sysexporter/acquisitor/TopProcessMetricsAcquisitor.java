@@ -33,7 +33,7 @@ public class TopProcessMetricsAcquisitor extends Acquisitor {
 	
 	@Override
 	protected String getName() {
-		return TOP_PROCESS;
+		return Constants.TOP_PROCESS;
 	}
 
 	@Override

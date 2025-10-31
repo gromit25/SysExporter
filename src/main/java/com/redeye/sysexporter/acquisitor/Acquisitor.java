@@ -180,7 +180,7 @@ public abstract class Acquisitor {
 		}
 
 		// 기준 시간 및 호스트 정보 추가
-		msgMap.put("timestamp", this.cronAcquisitor.getCurrentBaseTime());
+		msgMap.put("timestamp", this.cronAcquisitor.getBaseTime());
 		msgMap.put("type", this.getName());
 		msgMap.put("organCode", this.organCode);
 		msgMap.put("domainCode", this.domainCode);

@@ -11,6 +11,7 @@ import org.springframework.core.env.Environment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jutools.CronJob;
+import com.jutools.CronJob.Job;
 import com.jutools.StringUtil;
 
 import jakarta.annotation.PostConstruct;
@@ -134,10 +135,11 @@ public abstract class Acquisitor {
 		// 수집 크론잡 생성
 		this.cronAcquisitor = new CronJob(
 			this.scheduleStr,
-			new Runnable() {
+			new Job() {
 			
 				@Override
-				public void run() {
+				public void run(long startTime, long nextTime) {
+					
 					try {
 						
 						// 성능 데이터 수집
@@ -148,7 +150,7 @@ public abstract class Acquisitor {
 							
 							if(msgMap != null) {
 								
-								String message = toJSON(msgMap);
+								String message = toJSON(msgMap, startTime);
 								toExporterQueue.put(message);
 							}
 							
@@ -164,23 +166,24 @@ public abstract class Acquisitor {
 		);
 		
 		// 수집 크론잡 실행
-		this.cronAcquisitor.run();
+		this.cronAcquisitor.start();
 	}
 	
 	/**
 	 * 수집 데이터 Map 객체를 JSON 문자열로 변환
 	 * 
 	 * @param msgMap 수집 데이터 맵 객체 
+	 * @param startTime 시작 기준 시간
 	 * @return 변환된 JSON 문자열
 	 */
-	protected String toJSON(Map<String, Object> msgMap) throws Exception {
+	protected String toJSON(Map<String, Object> msgMap, long startTime) throws Exception {
 		
 		if(msgMap == null) {
-			throw new IllegalArgumentException("msgMap is null.");
+			throw new IllegalArgumentException("'msgMap' is null.");
 		}
 
 		// 기준 시간 및 호스트 정보 추가
-		msgMap.put("timestamp", this.cronAcquisitor.getBaseTime());
+		msgMap.put("timestamp", startTime);
 		msgMap.put("type", this.getName());
 		msgMap.put("organCode", this.organCode);
 		msgMap.put("domainCode", this.domainCode);
